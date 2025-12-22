@@ -436,13 +436,14 @@ const callGemini = async (prompt, systemInstruction = "") => {
 // --- COMPONENTS ---
 
 const ThemeToggle = ({ theme, toggleTheme }) => (
-  <button 
-    onClick={toggleTheme}
-    className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300"
-    aria-label="Toggle theme"
-  >
-    {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-  </button>
+  <button
+  type="button"
+  onClick={() => setIsDark(d => !d)}
+  className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+  aria-label="Toggle theme"
+>
+  {isDark ? "🌙" : "☀️"}
+</button>
 );
 
 const Navigation = ({ activeTab, setActiveTab, theme, toggleTheme }) => {
@@ -663,18 +664,18 @@ const ResumeModal = ({ onClose }) => {
 
 const Hero = ({ onOpenResume }) => (
   <div className="pt-32 pb-16 md:pt-48 md:pb-32 px-4 max-w-6xl mx-auto">
-    <div className="max-w-4xl animate-in slide-in-from-bottom-5 duration-700 fade-in">
+    <div className="max-w-4xl mx-auto text-center animate-in slide-in-from-bottom-5 duration-700 fade-in">
       <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6 leading-tight">
         Building stories with <span className="text-blue-600 dark:text-blue-400">Data</span> & <span className="text-blue-600 dark:text-blue-400">Design</span>.
       </h1>
       <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
         {PORTFOLIO_DATA.title}
       </p>
-      <div className="flex items-center text-slate-500 dark:text-slate-500 mb-10">
+      <div className="flex items-center justify-center text-slate-500 dark:text-slate-500 mb-10">
         <MapPin className="w-5 h-5 mr-2" /> {PORTFOLIO_DATA.location}
       </div>
       
-      <div className="flex flex-wrap gap-4 mb-16">
+      <div className="flex flex-wrap justify-center gap-4 mb-16">
         <button 
           onClick={onOpenResume}
           className="bg-slate-900 dark:bg-blue-600 text-white px-8 py-4 rounded-full font-medium hover:bg-slate-800 dark:hover:bg-blue-500 transition-transform hover:-translate-y-1 shadow-lg flex items-center"
@@ -1342,22 +1343,24 @@ const App = () => {
   const [activeTab, setActiveTab] = useState('home');
   const [selectedProject, setSelectedProject] = useState(null);
   const [showResume, setShowResume] = useState(false);
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState(() => {
+  const saved = localStorage.getItem("theme");
+  if (saved === "light" || saved === "dark") return saved;
+  return (window.matchMedia?.("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+});
 
-  // Auto Theme Detection
-  useEffect(() => {
-    const hour = new Date().getHours();
-    if (hour >= 18 || hour < 6) {
-      setTheme('dark');
-    }
-  }, []);
+// Apply theme to <html> so Tailwind dark: works 100%
+useEffect(() => {
+  document.documentElement.classList.toggle("dark", theme === "dark");
+  localStorage.setItem("theme", theme);
+}, [theme]);
 
-  const toggleTheme = () => {
-    setTheme(prev => prev === 'light' ? 'dark' : 'light');
-  };
+const toggleTheme = () => {
+  setTheme(prev => (prev === "light" ? "dark" : "light"));
+};
 
   return (
-    <div className={`${theme} min-h-screen transition-colors duration-300`}>
+    <div className="min-h-screen transition-colors duration-300">
       <div className="min-h-screen bg-white dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-100 selection:bg-blue-100 selection:text-blue-900 transition-colors duration-300">
         
         {/* Modal for Case Studies */}
