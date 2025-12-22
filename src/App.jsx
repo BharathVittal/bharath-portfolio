@@ -195,8 +195,8 @@ const PORTFOLIO_DATA = {
           "Translated IoT capabilities into parent-friendly value propositions"
         ],
         documents: [
-          { name: "Final Oral Presentation", type: "Presentation (PPTX)", link: "/assets/MKTG 6200 Fall 2025 Group Project Final Oral Presentation Team 5 Due Dec2.pptx" },
-          { name: "Final Group Project Report", type: "Report (DOCX)", link: "/assets/MKTG 6200 Fall 2025 Team 5 Final Group Project Report Due Dec2.docx" }
+          { name: "Final Presentation", type: "PDF", link: "/assets/projects/candyqty/candyqty-final-presentation.pdf" },
+          { name: "Final Report", type: "PDF", link: "/assets/projects/candyqty/candyqty-final-report.pdf" }
         ],
         reflection: "CandyQ-ty reinforced that great consumer products don’t choose between fun and control — they reconcile both. The challenge wasn’t technology; it was designing trust, safety, and delight into a physical product while keeping economics realistic at scale."
       }
@@ -236,7 +236,7 @@ const PORTFOLIO_DATA = {
           "Anchored strategy in real platform theory"
         ],
         documents: [
-          { name: "Platform Strategy Presentation", type: "Presentation (PPTX)", link: "/assets/Group 17 Fliteboard.pptx" }
+          { name: "Platform Strategy Deck", type: "PDF", link: "/assets/projects/fliteboard/fliteboard-platform-strategy.pdf" }
         ],
         reflection: "This project highlighted how great products become platforms when communities and data are treated as first-class citizens. The real value wasn’t in adding features — it was in orchestrating relationships."
       }
@@ -275,8 +275,7 @@ const PORTFOLIO_DATA = {
           "Co-authored final strategy narrative and presentation"
         ],
         documents: [
-          { name: "Strategic Analysis Deck", type: "PDF", link: "/assets/ZOHO A Case study in Bootstrapped Global Strategy.pdf" },
-          { name: "Case Study Report", type: "DOCX", link: "/assets/Zoho - Case.docx" }
+          { name: "Strategic Analysis Deck", type: "PDF", link: "/assets/projects/zoho/zoho-global-strategy-deck.pdf" }
         ],
         reflection: "Zoho demonstrated that strategy is often about what you refuse to do. This case reshaped my understanding of sustainable advantage, showing how discipline, culture, and cost structure can outperform speed and capital."
       }
@@ -314,8 +313,9 @@ const PORTFOLIO_DATA = {
             "Created investor pitch and business roadmap"
         ],
         documents: [
-          { name: "Project Overview", type: "PDF", link: "/assets/Bharath Vittal - ThreadWise.pdf" },
-          { name: "MVP User Feedback Report", type: "PDF", link: "/assets/User Feedback on MVP.pdf" }
+          { name: "Business Model Canvas", type: "PDF", link: "/assets/projects/threadwise/threadwise-business-model-canvas.pdf" },
+          { name: "Project Deck", type: "PDF", link: "/assets/projects/threadwise/threadwise-project-deck.pdf" },
+          { name: "User Feedback", type: "PDF", link: "/assets/projects/threadwise/threadwise-userfeedback.pdf" }
         ],
         reflection: "Even when users care deeply about a cause, they won't act unless it's easy, transparent, and emotionally aligned. This project deepened my appreciation for usability, storytelling, and designing trust into digital experiences."
       }
@@ -351,11 +351,15 @@ const PORTFOLIO_DATA = {
             "Co-developed investor deck and roadmap"
         ],
         documents: [
-          { name: "Final Presentation", type: "Presentation (PPTX)", link: "/assets/DPD Team 5 ElderTend Final Presentation-2.pptx" },
-          { name: "Product Requirements (PRD)", type: "Report (DOCX)", link: "/assets/DPD Team 5 ElderTend PRD Report-1.docx" },
-          { name: "Market Research (MRD)", type: "Report (DOCX)", link: "/assets/MRD Report-Team 5.docx" },
-          { name: "Project Overview", type: "PDF", link: "/assets/Bharath Vittal - ElderTend.pdf" }
+          { name: "Final Presentation", type: "PDF", link: "/assets/projects/eldertend/eldertend-final-presentation.pdf" },
+          { name: "Market Research (MRD)", type: "PDF", link: "/assets/projects/eldertend/eldertend-market-research-document.pdf" },
+          { name: "Product Requirements (PRD)", type: "PDF", link: "/assets/projects/eldertend/eldertend-product-requirements-document.pdf" }
         ],
+        prototype: {
+          title: "Mobile App Prototype (Figma)",
+          // Paste your Figma embed URL below (must be the https://www.figma.com/embed?... link)
+          embedUrl: "https://embed.figma.com/proto/vBRVtCB6Ql1p5zzp5Ggchw/ElderTend-V1.0?page-id=0%3A1&node-id=121-2&starting-point-node-id=121%3A2&embed-host=share"
+        },
         reflection: "Designing for a vulnerable population taught us that accessibility and empathy aren't secondary features—they are the product. ElderTend was an opportunity to build something meaningful with social impact."
       }
     },
@@ -388,8 +392,10 @@ const PORTFOLIO_DATA = {
             "Co-crafted final report and audit framework"
         ],
         documents: [
-          { name: "Project Handout", type: "PDF", link: "/assets/Team-2 A-Team PM Project Handout Spring 2024.pdf" },
-          { name: "Project Overview", type: "PDF", link: "/assets/Bharath Vittal - Automative Factory Automation.pdf" }
+          { name: "Presentation", type: "PDF", link: "/assets/projects/automative-automation/automotive-factory-automation-presentation.pdf" },
+          { name: "Project Handout", type: "PDF", link: "/assets/projects/automative-automation/automotive-factory-automation-project-handout.pdf" },
+          { name: "Final Report", type: "PDF", link: "/assets/projects/automative-automation/automotive-factory-automation-report.pdf" },
+          { name: "Work Breakdown Schedule", type: "PDF", link: "/assets/projects/automative-automation/automotive-factory-automation-work-breakdown-schedule.pdf" }
         ],
         reflection: "This capstone experience involved simulating a complex factory setup and applying real-world project management tools. It pushed us to collaborate, evaluate risk, and build processes that reflect actual industry standards."
       }
@@ -969,7 +975,9 @@ const CaseStudyModal = ({ project, onClose }) => {
                   {caseStudy.documents.map((doc, idx) => (
                     <a 
                       key={idx} 
-                      href={doc.link} 
+                      href={doc.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="flex items-center p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-orange-300 dark:hover:border-orange-700 hover:shadow-md transition-all group"
                     >
                       <div className="bg-orange-50 dark:bg-orange-900/30 p-2 rounded-lg text-orange-600 dark:text-orange-400 mr-4 group-hover:bg-orange-100 dark:group-hover:bg-orange-900/50 transition-colors">
@@ -982,6 +990,30 @@ const CaseStudyModal = ({ project, onClose }) => {
                       <Download className="w-4 h-4 text-slate-400 dark:text-slate-500 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors" />
                     </a>
                   ))}
+                </div>
+              </div>
+           )}
+
+           {/* Prototype Embed Section (Optional) */}
+           {caseStudy.prototype?.embedUrl && (
+              <div>
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 flex items-center">
+                   <Code className="w-6 h-6 mr-3 text-indigo-600 dark:text-indigo-400" /> {caseStudy.prototype.title || "Prototype"}
+                </h3>
+
+                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm">
+                  <div className="aspect-[16/9] w-full">
+                    <iframe
+                      title={caseStudy.prototype.title || "Figma Prototype"}
+                      src={caseStudy.prototype.embedUrl}
+                      className="w-full h-full"
+                      allowFullScreen
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="p-4 text-xs text-slate-500 dark:text-slate-400 border-t border-slate-100 dark:border-slate-800">
+                    Tip: If you see a blank embed, make sure your Figma share link is set to “Anyone with the link can view”.
+                  </div>
                 </div>
               </div>
            )}
