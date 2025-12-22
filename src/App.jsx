@@ -435,18 +435,7 @@ const callGemini = async (prompt, systemInstruction = "") => {
 
 // --- COMPONENTS ---
 
-const ThemeToggle = ({ theme, toggleTheme }) => (
-  <button
-    type="button"
-    onClick={toggleTheme}
-    className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
-    aria-label="Toggle theme"
-  >
-    {theme === "dark" ? "☀️" : "🌙"}
-  </button>
-);
-
-const Navigation = ({ activeTab, setActiveTab, theme, toggleTheme }) => {
+const Navigation = ({ activeTab, setActiveTab }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
@@ -480,13 +469,10 @@ const Navigation = ({ activeTab, setActiveTab, theme, toggleTheme }) => {
                 {item.label}
               </button>
             ))}
-            <div className="h-6 w-px bg-slate-200 dark:bg-slate-700 mx-2" />
-            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center gap-4">
-            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+          <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="text-gray-500 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white p-2"
@@ -770,9 +756,9 @@ const AboutPreview = () => (
 
 const EducationView = ({ onOpenProject }) => (
   <div className="py-24 px-4 max-w-5xl mx-auto">
-    <div className="mb-12">
+    <div className="mb-12 text-center">
       <h2 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">Academic Journey</h2>
-      <p className="text-lg text-slate-600 dark:text-slate-400">
+      <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
         Connecting theory to practice. Here is a breakdown of my Master's coursework and how I applied these concepts to real-world projects.
       </p>
     </div>
@@ -1171,197 +1157,15 @@ const ContactSection = ({ onOpenResume }) => (
   </div>
 );
 
-// --- AI ASSISTANT COMPONENT ---
-
-const AIAssistant = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    { role: 'ai', text: "Hi! I'm Bharath's AI Assistant. Ask me anything about his experience, projects, or how to get in touch!" }
-  ]);
-  const [inputText, setInputText] = useState("");
-  const [isListening, setIsListening] = useState(false);
-  const [isSpeaking, setIsSpeaking] = useState(false);
-  const [isThinking, setIsThinking] = useState(false);
-  const chatEndRef = useRef(null);
-
-  // Auto-scroll to bottom of chat
-  useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isThinking]);
-
-  // Speech Recognition Setup
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  const recognition = useRef(SpeechRecognition ? new SpeechRecognition() : null);
-
-  useEffect(() => {
-    if (recognition.current) {
-      recognition.current.continuous = false;
-      recognition.current.lang = 'en-US';
-      
-      recognition.current.onstart = () => setIsListening(true);
-      recognition.current.onend = () => setIsListening(false);
-      
-      recognition.current.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        setInputText(transcript);
-        handleSend(transcript);
-      };
-    }
-  }, []);
-
-  const speak = (text) => {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.onstart = () => setIsSpeaking(true);
-      utterance.onend = () => setIsSpeaking(false);
-      const voices = window.speechSynthesis.getVoices();
-      const preferredVoice = voices.find(v => v.name.includes('Google') || v.name.includes('Premium'));
-      if (preferredVoice) utterance.voice = preferredVoice;
-      window.speechSynthesis.speak(utterance);
-    }
-  };
-
-  const handleSend = async (text = inputText) => {
-    if (!text.trim()) return;
-
-    const newMessages = [...messages, { role: 'user', text }];
-    setMessages(newMessages);
-    setInputText("");
-    setIsThinking(true);
-
-    const systemPrompt = `
-      You are an AI assistant for Bharath Vittal's portfolio website. 
-      Your goal is to represent him professionally and answer questions about his work, skills, and experience.
-      
-      Here is his portfolio data:
-      ${JSON.stringify(PORTFOLIO_DATA)}
-      
-      Guidelines:
-      1. Be concise, friendly, and professional.
-      2. If asked about contact info, provide his email (${PORTFOLIO_DATA.contact.email}).
-      3. If asked about a specific project not in the data, gently say you only know about his featured projects.
-      4. Speak in the first person plural (e.g., "We," or "Bharath's work") or third person ("Bharath is...").
-      5. Keep responses short (under 50 words) so they are easy to read and listen to via TTS.
-    `;
-
-    const responseText = await callGemini(text, systemPrompt);
-
-    setIsThinking(false);
-    setMessages(prev => [...prev, { role: 'ai', text: responseText }]);
-    speak(responseText);
-  };
-
-  const toggleListening = () => {
-    if (!recognition.current) {
-      alert("Speech recognition is not supported in this browser. Please try Chrome.");
-      return;
-    }
-    if (isListening) {
-      recognition.current.stop();
-    } else {
-      recognition.current.start();
-    }
-  };
-
-  return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
-      {/* Chat Window */}
-      {isOpen && (
-        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 w-80 md:w-96 mb-4 overflow-hidden animate-in slide-in-from-bottom-10 fade-in duration-300">
-          <div className="bg-slate-900 p-4 flex justify-between items-center text-white">
-            <div className="flex items-center gap-2">
-              <div className={`w-2 h-2 rounded-full ${isSpeaking ? 'bg-green-400 animate-pulse' : 'bg-green-400'}`} />
-              <span className="font-medium">Portfolio AI Agent</span>
-            </div>
-            <button onClick={() => setIsOpen(false)} className="hover:text-gray-300"><X className="w-4 h-4" /></button>
-          </div>
-          
-          <div className="h-80 overflow-y-auto p-4 bg-slate-50 dark:bg-slate-950 space-y-3">
-            {messages.map((msg, idx) => (
-              <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[85%] p-3 rounded-2xl text-sm ${
-                  msg.role === 'user' 
-                    ? 'bg-blue-600 text-white rounded-br-none' 
-                    : 'bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 shadow-sm border border-slate-100 dark:border-slate-800 rounded-bl-none'
-                }`}>
-                  {msg.text}
-                </div>
-              </div>
-            ))}
-            {isThinking && (
-              <div className="flex justify-start">
-                <div className="bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 p-3 rounded-2xl rounded-bl-none text-xs flex items-center shadow-sm border border-slate-100 dark:border-slate-800">
-                  <Sparkles className="w-3 h-3 mr-2 animate-spin" /> Thinking...
-                </div>
-              </div>
-            )}
-            <div ref={chatEndRef} />
-          </div>
-
-          <div className="p-3 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 flex items-center gap-2">
-            <button 
-              onClick={toggleListening}
-              className={`p-2 rounded-full transition-all ${
-                isListening 
-                  ? 'bg-red-100 text-red-600 animate-pulse' 
-                  : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
-              }`}
-            >
-              {isListening ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
-            </button>
-            <input
-              type="text"
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-              placeholder="Ask anything..."
-              className="flex-grow bg-slate-50 dark:bg-slate-800 border-none rounded-full px-4 py-2 text-sm focus:ring-2 focus:ring-blue-100 outline-none text-slate-900 dark:text-white"
-            />
-            <button 
-              onClick={() => handleSend()}
-              className="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors"
-            >
-              <Send className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Floating Toggle Button */}
-      <button 
-        onClick={() => setIsOpen(!isOpen)}
-        className="h-14 w-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105 flex items-center justify-center group"
-      >
-        {isOpen ? <X className="w-6 h-6" /> : <Sparkles className="w-6 h-6 group-hover:rotate-12 transition-transform" />}
-      </button>
-    </div>
-  );
-};
 
 const App = () => {
   const [activeTab, setActiveTab] = useState('home');
   const [selectedProject, setSelectedProject] = useState(null);
   const [showResume, setShowResume] = useState(false);
-  const [theme, setTheme] = useState(() => {
-  const saved = localStorage.getItem("theme");
-  if (saved === "light" || saved === "dark") return saved;
-  return (window.matchMedia?.("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
-});
-
-// Apply theme to <html> so Tailwind dark: works 100%
-useEffect(() => {
-  document.documentElement.classList.toggle("dark", theme === "dark");
-  localStorage.setItem("theme", theme);
-}, [theme]);
-
-const toggleTheme = () => {
-  setTheme(prev => (prev === "light" ? "dark" : "light"));
-};
 
   return (
-    <div className="min-h-screen transition-colors duration-300">
-      <div className="min-h-screen bg-white dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-100 selection:bg-blue-100 selection:text-blue-900 transition-colors duration-300">
+    <div className="min-h-screen w-full transition-colors duration-300">
+      <div className="min-h-screen w-full bg-white dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-100 selection:bg-blue-100 selection:text-blue-900 transition-colors duration-300">
         
         {/* Modal for Case Studies */}
         {selectedProject && (
@@ -1381,12 +1185,10 @@ const toggleTheme = () => {
            <Navigation 
              activeTab={activeTab} 
              setActiveTab={setActiveTab} 
-             theme={theme}
-             toggleTheme={toggleTheme}
            />
         )}
         
-        <main className={`min-h-screen pt-16 ${selectedProject || showResume ? 'hidden' : 'block'}`}>
+        <main className={`min-h-screen w-full pt-16 ${selectedProject || showResume ? 'hidden' : 'block'}`}>
           {activeTab === 'home' && (
             <div className="animate-in fade-in duration-500">
               <Hero onOpenResume={() => setShowResume(true)} />
@@ -1415,11 +1217,9 @@ const toggleTheme = () => {
             </div>
           )}
         </main>
-
-        <AIAssistant />
       </div>
     </div>
   );
-};
+}
 
 export default App;
