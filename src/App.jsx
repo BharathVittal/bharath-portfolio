@@ -437,13 +437,13 @@ const callGemini = async (prompt, systemInstruction = "") => {
 
 const ThemeToggle = ({ theme, toggleTheme }) => (
   <button
-  type="button"
-  onClick={() => setIsDark(d => !d)}
-  className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
-  aria-label="Toggle theme"
->
-  {isDark ? "🌙" : "☀️"}
-</button>
+    type="button"
+    onClick={toggleTheme}
+    className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+    aria-label="Toggle theme"
+  >
+    {theme === "dark" ? "☀️" : "🌙"}
+  </button>
 );
 
 const Navigation = ({ activeTab, setActiveTab, theme, toggleTheme }) => {
