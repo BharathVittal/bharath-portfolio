@@ -1116,7 +1116,7 @@ const ProjectsGrid = ({ onOpenCaseStudy }) => (
       <h2 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">Featured Projects</h2>
       <p className="text-slate-500 dark:text-slate-400 text-sm flex items-center justify-center gap-2">
         <Sparkles className="w-4 h-4 text-yellow-500" /> 
-        Try the AI Insight Lens on any project below
+        Try the Insight Lens on any project below
       </p>
     </div>
     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
