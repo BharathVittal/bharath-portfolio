@@ -22,5 +22,40 @@
       async
       type="text/javascript">
     </script>
+    <!-- Auto-open ElevenLabs widget after a short delay (once per session, desktop only) -->
+    <script>
+      (function () {
+        // Do not auto-open on mobile or if already opened in this session
+        if (
+          sessionStorage.getItem("dwight_widget_opened") ||
+          window.innerWidth < 768
+        ) return;
+
+        const OPEN_DELAY_MS = 4000; // 4-second nudge
+
+        function tryOpenWidget() {
+          const widget = document.querySelector("elevenlabs-convai");
+          if (!widget || !widget.shadowRoot) return;
+
+          const openButton =
+            widget.shadowRoot.querySelector("button") ||
+            widget.shadowRoot.querySelector('[role="button"]');
+
+          if (openButton) {
+            openButton.click();
+            sessionStorage.setItem("dwight_widget_opened", "true");
+          }
+        }
+
+        setTimeout(() => {
+          const interval = setInterval(() => {
+            tryOpenWidget();
+            if (sessionStorage.getItem("dwight_widget_opened")) {
+              clearInterval(interval);
+            }
+          }, 500);
+        }, OPEN_DELAY_MS);
+      })();
+    </script>
   </body>
 </html>
