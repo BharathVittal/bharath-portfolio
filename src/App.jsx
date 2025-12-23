@@ -93,7 +93,62 @@ const PORTFOLIO_DATA = {
         "Wireframed, prototyped, and built the marketing website, owning UX flows, information architecture, and product copy",
         "Mapped end-to-end user journeys and built CRM workflows in GoHighLevel to automate lead capture and onboarding",
         "Developed sales playbooks and objection-handling scripts tailored to non-technical SMB owners"
-      ]
+      ],
+      caseStudy: {
+        overview: {
+          duration: "Summer 2025",
+          role: "Product Intern",
+          location: "Florida",
+          type: "Early-stage voice assistant SaaS for SMBs"
+        },
+        jtbd: "When a small business misses calls during busy hours or after-hours, they want someone to instantly answer FAQs and book appointments, so they don’t lose revenue or have to hire extra staff.",
+        projects: [
+          {
+            title: "Discovery + PMF validation",
+            bullets: [
+              "Mapped core caller intents (hours, services, pricing, appointments, policies) across target verticals",
+              "Identified adoption frictions (owner skepticism, dislike for IVR, clarity on privacy) and translated them into product messaging and flow decisions"
+            ]
+          },
+          {
+            title: "Prompt engineering + voice agent testing",
+            bullets: [
+              "Structured business data (services, hours, policies) into consistent knowledge inputs for the agent",
+              "Tested edge cases (ambiguous requests, cancellations, reschedules, sensitive info) to improve reliability and privacy-aware behavior"
+            ]
+          },
+          {
+            title: "Marketing website (UX + copy)",
+            bullets: [
+              "Wireframed, prototyped, and built the marketing site; owned information architecture, UX flow, and conversion-focused copy",
+              "Simplified language for non-technical owners and clarified “what happens when someone calls” end-to-end"
+            ]
+          },
+          {
+            title: "GoHighLevel CRM workflows",
+            bullets: [
+              "Built workflows for demo capture, follow-ups, pricing, and onboarding to support a scalable funnel",
+              "Defined lifecycle stages and handoffs so the process stays repeatable as volume grows"
+            ]
+          }
+        ],
+        myRole: [
+          "Supported early product discovery and PMF validation",
+          "Designed and tested voice agent conversational flows and guardrails",
+          "Owned website UX, information architecture, and messaging",
+          "Automated lead-to-onboarding workflows in GoHighLevel"
+        ],
+        tools: [
+          "GoHighLevel (CRM + workflow automation)",
+          "Prompt design for voice assistants (knowledge structuring, edge-case testing)",
+          "Web/UX: wireframing, information architecture, conversion copy"
+        ],
+        learnings: [
+          "For SMBs, outcomes win: ‘calls answered’ and ‘time saved’ matter more than ‘AI’.",
+          "Voice experiences are won on edge cases and failure handling, not the happy path.",
+          "A clean funnel is mostly clarity + less friction—not more features."
+        ]
+      }
     },
     {
       company: "PipeCandy Technologies (acquired by Assembly, now PacVue)",
@@ -105,7 +160,67 @@ const PORTFOLIO_DATA = {
         "Migrated CMS from WordPress to Webflow to improve SEO and user experience, increasing MQLs by ~30%",
         "Built SQL/Python dashboards for leadership to track KPI performance and customer engagement metrics",
         "Ran outbound campaigns and optimized lead funnels, contributing to sustained pipeline growth"
-      ]
+      ],
+      caseStudy: {
+        overview: {
+          duration: "June 2021 – Sept 2023",
+          role: "Product Manager / Product Marketer",
+          location: "India",
+          type: "B2B SaaS (content-led growth + GTM execution)"
+        },
+        jtbd: "When eCommerce teams evaluate tools and candidates evaluate employers, they want credibility and clarity beyond feature lists, so they can trust the product and the people behind it.",
+        projects: [
+          {
+            title: "Content-led product growth (GTM-aligned)",
+            bullets: [
+              "Owned content strategy tied to GTM priorities; built repeatable content loops that drove high-intent sign-ups",
+              "Executed campaigns that contributed to a 5x increase in sign-ups"
+            ]
+          },
+          {
+            title: "CMS migration (WordPress → Webflow)",
+            bullets: [
+              "Led migration to improve SEO, site performance, and publishing velocity",
+              "Redesigned information architecture and content hierarchy; increased MQLs by ~30%"
+            ]
+          },
+          {
+            title: "Analytics dashboards (SQL/Python)",
+            bullets: [
+              "Built leadership dashboards to track funnel KPIs and content/customer engagement metrics",
+              "Improved visibility into what was working vs noise to guide prioritization"
+            ]
+          },
+          {
+            title: "Employer branding: culture + hiring video",
+            bullets: [
+              "Worked with leadership on narrative framing and execution for a company culture / hiring video",
+              "Translated internal values into an external story to improve candidate fit and clarity"
+            ]
+          }
+        ],
+        media: {
+          title: "Company Culture / Hiring Video",
+          type: "youtube",
+          embedUrl: "https://www.youtube.com/embed/b2Ao1mwDGQ4?si=WEy5jliLhFQE7a_K"
+        },
+        myRole: [
+          "Owned content strategy and GTM-aligned messaging",
+          "Led CMS migration execution (requirements, IA, QA, rollout)",
+          "Built analytics dashboards for leadership decision-making",
+          "Shaped employer branding narrative through culture/hiring storytelling"
+        ],
+        tools: [
+          "Webflow, WordPress (CMS migration)",
+          "SQL, Python (dashboards + reporting)",
+          "Content strategy, information architecture, narrative framing"
+        ],
+        learnings: [
+          "Content wins by intent-matching and clarity—not volume.",
+          "Migrations are product work: taxonomy, UX, and QA matter.",
+          "Employer branding is a funnel: strong storytelling reduces friction in hiring and sales."
+        ]
+      }
     },
     {
       company: "Adqvest Capital (now Thurro)",
@@ -116,7 +231,54 @@ const PORTFOLIO_DATA = {
         "Built 200+ Python RPA bots to automate data ingestion; reduced manual effort by 40% and improved data accuracy",
         "Supported ML-driven analysis contributing to ~25% AUM growth by identifying high-potential equity sectors",
         "Created Tableau & Power BI dashboards for portfolio tracking, enabling real-time decision-making for fund managers"
-      ]
+      ],
+      caseStudy: {
+        overview: {
+          duration: "Aug 2019 – May 2021",
+          role: "Data Analyst",
+          location: "India",
+          type: "Analytics + automation for investment workflows"
+        },
+        jtbd: "When analysts rely on messy, time-sensitive market data, they want automated pipelines and clear dashboards so they can make decisions faster with fewer errors.",
+        projects: [
+          {
+            title: "Automation at scale (Python RPA)",
+            bullets: [
+              "Built 200+ Python RPA bots to automate data ingestion and processing",
+              "Reduced manual effort by 40% and improved data accuracy"
+            ]
+          },
+          {
+            title: "Portfolio dashboards (Tableau / Power BI)",
+            bullets: [
+              "Created dashboards for portfolio tracking and real-time decision support",
+              "Enabled faster ‘what changed and why’ visibility for fund managers"
+            ]
+          },
+          {
+            title: "ML-supported analysis",
+            bullets: [
+              "Supported ML-driven analysis to identify high-potential equity sectors",
+              "Contributed to outcomes including ~25% AUM growth"
+            ]
+          }
+        ],
+        myRole: [
+          "Built and maintained automation pipelines",
+          "Designed dashboards for decision-makers",
+          "Supported analytical workstreams tied to measurable investment outcomes"
+        ],
+        tools: [
+          "Python (automation / scripting)",
+          "Tableau, Power BI (dashboards)",
+          "Data cleaning, transformation, repeatable pipelines"
+        ],
+        learnings: [
+          "Automation compounds: the operating model changes after enough repetitive work is removed.",
+          "Dashboards are about decision velocity, not aesthetics.",
+          "Repeatability and correctness beat one-off analysis."
+        ]
+      }
     },
     {
       company: "Greenpod Labs",
@@ -126,7 +288,45 @@ const PORTFOLIO_DATA = {
       bullets: [
         "Validated market fit for biotech innovation in food supply chain; created pilot plans for cold-chain logistics",
         "Pitched directly to retailers and distributors, gathering feedback to refine value proposition and GTM approach"
-      ]
+      ],
+      caseStudy: {
+        overview: {
+          duration: "Summer 2020",
+          role: "Market Research Intern",
+          location: "India",
+          type: "Biotech innovation in food supply chain / cold chain"
+        },
+        jtbd: "When retailers and distributors face spoilage and inconsistent freshness, they want a way to extend shelf-life without major operational changes so they can reduce waste and protect margins.",
+        projects: [
+          {
+            title: "Market validation + pilot planning",
+            bullets: [
+              "Validated market fit for biotech innovation in the food supply chain",
+              "Created pilot plans and gathered field feedback from target stakeholders"
+            ]
+          },
+          {
+            title: "Customer conversations",
+            bullets: [
+              "Pitched to retailers and distributors and synthesized objections into positioning input",
+              "Refined value proposition and GTM approach based on real constraints"
+            ]
+          }
+        ],
+        myRole: [
+          "Field research and feedback synthesis",
+          "Translated customer objections into positioning recommendations"
+        ],
+        tools: [
+          "Interviewing and synthesis",
+          "Competitor scanning",
+          "Pilot planning and GTM narrative shaping"
+        ],
+        learnings: [
+          "Adoption risk is often operational, not technical.",
+          "GTM gets easier when objections and constraints are treated as inputs—not inconveniences."
+        ]
+      }
     },
     {
       company: "The Canine Bowl",
@@ -137,7 +337,53 @@ const PORTFOLIO_DATA = {
         "Co-founded a fresh pet food startup; designed product offerings, pricing logic, and menu cycles",
         "Managed end-to-end operations including sourcing, packaging, and last-mile delivery",
         "Handled branding and early customer acquisition, building a loyal local customer base"
-      ]
+      ],
+      caseStudy: {
+        overview: {
+          duration: "2018 – 2019",
+          role: "Co-Founder / Operations & Product Lead",
+          location: "India",
+          type: "Fresh pet food startup (product + ops + early growth)"
+        },
+        jtbd: "When pet owners want healthier meals but don’t have time to cook, they want fresh, reliable food delivered consistently so they can feel confident about their pet’s health without extra effort.",
+        projects: [
+          {
+            title: "Product definition (menus + cycles)",
+            bullets: [
+              "Designed product offerings, menu cycles, and packaging considerations",
+              "Built pricing logic with a practical unit-economics mindset"
+            ]
+          },
+          {
+            title: "Operations + delivery execution",
+            bullets: [
+              "Managed sourcing, packaging, and last-mile delivery",
+              "Set up lightweight systems to maintain consistency and reliability"
+            ]
+          },
+          {
+            title: "Branding + early acquisition",
+            bullets: [
+              "Owned brand and early customer acquisition efforts",
+              "Built repeat customers through consistency and service reliability"
+            ]
+          }
+        ],
+        myRole: [
+          "End-to-end ownership across product, operations, and customer experience",
+          "Set up repeatable fulfillment and feedback loops"
+        ],
+        tools: [
+          "Pricing logic and operational planning",
+          "Customer feedback loops",
+          "Lightweight systems for recurring delivery"
+        ],
+        learnings: [
+          "In subscription-like businesses, consistency is the product.",
+          "Trust is built through operations more than marketing.",
+          "The first 50 customers teach more than any framework."
+        ]
+      }
     }
   ],
   leadership: [
@@ -805,7 +1051,7 @@ const EducationView = ({ onOpenProject }) => (
   </div>
 );
 
-const WorkTimeline = () => (
+const WorkTimeline = ({ onOpenWork }) => (
   <div className="py-24 px-4 max-w-4xl mx-auto">
     <h2 className="text-4xl font-bold text-slate-900 dark:text-white mb-12 text-center">Work Experience</h2>
     <div className="space-y-12 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-300 dark:before:via-slate-700 before:to-transparent">
@@ -817,7 +1063,7 @@ const WorkTimeline = () => (
           </div>
           
           {/* Card */}
-          <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md transition-all">
+          <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md transition-all flex flex-col">
             <div className="flex items-center justify-between mb-1">
               <h3 className="font-bold text-slate-900 dark:text-white text-lg">{job.role}</h3>
               <time className="font-mono text-xs text-slate-500 dark:text-slate-400">{job.date}</time>
@@ -826,199 +1072,162 @@ const WorkTimeline = () => (
             <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
               {job.bullets[0]}
             </p>
+            <button
+              onClick={() => onOpenWork(job)}
+              className="inline-flex items-center text-sm font-semibold text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 border-t border-slate-100 dark:border-slate-800 pt-4 mt-4 w-full text-left"
+            >
+              View Work Details <ExternalLink className="w-4 h-4 ml-2" />
+            </button>
           </div>
         </div>
       ))}
     </div>
   </div>
 );
-
-const CaseStudyModal = ({ project, onClose }) => {
-  if (!project.caseStudy) return null;
-  const { caseStudy } = project;
-
+// --- WorkCaseStudyModal ---
+const WorkCaseStudyModal = ({ job, onClose }) => {
+  if (!job?.caseStudy) return null;
+  const { caseStudy } = job;
   return (
     <div className="fixed inset-0 z-[60] overflow-y-auto bg-white dark:bg-slate-950 animate-in slide-in-from-bottom-10 duration-300">
       <div className="max-w-4xl mx-auto px-4 py-8 md:py-16">
-        
         {/* Header */}
         <div className="mb-8">
-           <button 
-             onClick={onClose}
-             className="flex items-center text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors mb-6 group"
-           >
-             <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
-             Back to Projects
-           </button>
-           <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-4 leading-tight">
-             {project.title}
-           </h1>
-           <div className="flex flex-wrap gap-2 mb-6">
-             {project.tags && project.tags.map(tag => (
-               <span key={tag} className="px-3 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-semibold rounded-full uppercase tracking-wider">
-                 {tag}
-               </span>
-             ))}
-           </div>
+          <button
+            onClick={onClose}
+            className="flex items-center text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors mb-6 group"
+          >
+            <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
+            Back to Work
+          </button>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-2 leading-tight">
+            {job.role} — {job.company}
+          </h1>
+          <div className="text-slate-500 dark:text-slate-400 text-base mb-4">
+            {job.location} • {job.date}
+          </div>
         </div>
-
         {/* Overview Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6 bg-slate-50 dark:bg-slate-900 rounded-2xl mb-12 border border-slate-100 dark:border-slate-800">
-            <div>
-               <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Duration</div>
-               <div className="font-medium text-slate-900 dark:text-white">{caseStudy.overview.duration}</div>
-            </div>
-            <div>
-               <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Role</div>
-               <div className="font-medium text-slate-900 dark:text-white">{caseStudy.overview.role}</div>
-            </div>
-            <div>
-               <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Team</div>
-               <div className="font-medium text-slate-900 dark:text-white text-sm">{caseStudy.overview.team}</div>
-            </div>
-             <div>
-               <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Context</div>
-               <div className="font-medium text-slate-900 dark:text-white text-sm">{caseStudy.overview.type}</div>
-            </div>
+          <div>
+            <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Duration</div>
+            <div className="font-medium text-slate-900 dark:text-white">{caseStudy.overview.duration}</div>
+          </div>
+          <div>
+            <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Role</div>
+            <div className="font-medium text-slate-900 dark:text-white">{caseStudy.overview.role}</div>
+          </div>
+          <div>
+            <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Location</div>
+            <div className="font-medium text-slate-900 dark:text-white">{caseStudy.overview.location}</div>
+          </div>
+          <div>
+            <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Context</div>
+            <div className="font-medium text-slate-900 dark:text-white">{caseStudy.overview.type}</div>
+          </div>
         </div>
-
         {/* Main Content */}
         <div className="space-y-16 text-slate-700 dark:text-slate-300">
-           
-           {/* Problem & Solution */}
-           <div className="grid md:grid-cols-2 gap-12">
-              <div>
-                <div className="flex items-center gap-2 mb-4 text-red-600 dark:text-red-400 font-bold text-lg">
-                   <Target className="w-5 h-5" /> The Problem
+          {/* JTBD */}
+          <div>
+            <div className="flex items-center gap-2 mb-4 text-blue-600 dark:text-blue-400 font-bold text-lg">
+              <Target className="w-5 h-5" /> JTBD
+            </div>
+            <p className="leading-relaxed text-2xl md:text-2xl font-semibold text-slate-900 dark:text-white">
+              {caseStudy.jtbd}
+            </p>
+          </div>
+          {/* Projects & Initiatives */}
+          <div>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 flex items-center">
+              <Layers className="w-6 h-6 mr-3 text-purple-600 dark:text-purple-400" /> Projects & Initiatives
+            </h3>
+            <div className="grid md:grid-cols-2 gap-6">
+              {caseStudy.projects.map((proj, idx) => (
+                <div key={idx} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm">
+                  <div className="font-bold text-slate-900 dark:text-white mb-2">{proj.title}</div>
+                  <ul className="list-disc list-inside text-slate-600 dark:text-slate-400 text-sm space-y-1">
+                    {proj.bullets.map((b, i) => (
+                      <li key={i}>{b}</li>
+                    ))}
+                  </ul>
                 </div>
-                <p className="leading-relaxed text-lg">
-                   {caseStudy.problem}
-                </p>
-              </div>
-              <div>
-                <div className="flex items-center gap-2 mb-4 text-emerald-600 dark:text-emerald-400 font-bold text-lg">
-                   <Lightbulb className="w-5 h-5" /> The Solution
+              ))}
+            </div>
+          </div>
+          {/* My Role */}
+          <div>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 flex items-center">
+              <User className="w-6 h-6 mr-3 text-emerald-600 dark:text-emerald-400" /> My Role
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {caseStudy.myRole.map((role, idx) => (
+                <div key={idx} className="flex items-center px-4 py-2 bg-emerald-50 dark:bg-emerald-900/20 rounded-full border border-emerald-100 dark:border-emerald-900/30 text-slate-900 dark:text-white font-medium text-sm">
+                  {role}
                 </div>
-                <p className="leading-relaxed text-lg">
-                   {caseStudy.solution}
-                </p>
-              </div>
-           </div>
-
-           {/* Market & Strategy */}
-           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 shadow-sm">
+              ))}
+            </div>
+          </div>
+          {/* Tools & Technologies */}
+          <div>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 flex items-center">
+              <Wrench className="w-6 h-6 mr-3 text-blue-600 dark:text-blue-400" /> Tools & Technologies
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {caseStudy.tools.map((tool, idx) => (
+                <span key={idx} className="bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-900/40 text-blue-700 dark:text-blue-300 px-3 py-1 rounded-full text-sm font-medium">
+                  {tool}
+                </span>
+              ))}
+            </div>
+          </div>
+          {/* Key Learnings */}
+          <div>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 flex items-center">
+              <Lightbulb className="w-6 h-6 mr-3 text-yellow-500 dark:text-yellow-300" /> Key Learnings
+            </h3>
+            <ul className="list-disc list-inside text-slate-700 dark:text-slate-300 space-y-2">
+              {caseStudy.learnings.map((l, idx) => (
+                <li key={idx}>{l}</li>
+              ))}
+            </ul>
+          </div>
+          {/* Media Section */}
+          {caseStudy.media?.embedUrl && (
+            <div>
               <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 flex items-center">
-                 <BarChart3 className="w-6 h-6 mr-3 text-blue-600 dark:text-blue-400" /> Market & Business Logic
+                <ExternalLink className="w-6 h-6 mr-3 text-red-500 dark:text-red-400" /> {caseStudy.media.title}
               </h3>
-              <div className="grid md:grid-cols-2 gap-8">
-                 <div>
-                    <h4 className="font-semibold text-slate-900 dark:text-white mb-2">Target Market</h4>
-                    <p className="text-slate-600 dark:text-slate-400 mb-4">{caseStudy.market.target}</p>
-                    <h4 className="font-semibold text-slate-900 dark:text-white mb-2">Opportunity</h4>
-                    <p className="text-slate-600 dark:text-slate-400">{caseStudy.market.opportunity}</p>
-                 </div>
-                 <div className="bg-slate-50 dark:bg-slate-800 p-6 rounded-xl">
-                    <h4 className="font-semibold text-slate-900 dark:text-white mb-3 flex items-center">
-                       <PieChart className="w-4 h-4 mr-2" /> Financials & Projections
-                    </h4>
-                    <ul className="space-y-2 text-sm text-slate-700 dark:text-slate-300">
-                       {Object.entries(caseStudy.financials).map(([key, value]) => (
-                          <li key={key} className="flex justify-between border-b border-slate-200 dark:border-slate-700 pb-2 last:border-0 last:pb-0">
-                             <span className="capitalize text-slate-500 dark:text-slate-400">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
-                             <span className="font-medium text-slate-900 dark:text-white text-right">{value}</span>
-                          </li>
-                       ))}
-                    </ul>
-                 </div>
+              <div className="aspect-[16/9] w-full rounded-xl overflow-hidden mb-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-800">
+                <iframe
+                  title={caseStudy.media.title}
+                  src={caseStudy.media.embedUrl}
+                  allowFullScreen
+                  loading="lazy"
+                  className="w-full h-full"
+                />
               </div>
-           </div>
-
-           {/* My Contribution */}
-           <div>
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 flex items-center">
-                 <Layers className="w-6 h-6 mr-3 text-purple-600 dark:text-purple-400" /> My Role & Contributions
-              </h3>
-              <div className="grid md:grid-cols-2 gap-4">
-                 {caseStudy.myRole.map((role, idx) => (
-                    <div key={idx} className="flex items-start p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl border border-purple-100 dark:border-purple-900/30">
-                       <div className="bg-white dark:bg-purple-900 p-1 rounded-full text-purple-600 dark:text-purple-300 mr-3 mt-0.5 shadow-sm">
-                          <User className="w-3 h-3" />
-                       </div>
-                       <span className="text-slate-800 dark:text-slate-200 font-medium">{role}</span>
-                    </div>
-                 ))}
-              </div>
-           </div>
-
-           {/* Documents Section */}
-           {caseStudy.documents && (
-              <div>
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 flex items-center">
-                   <FileText className="w-6 h-6 mr-3 text-orange-600 dark:text-orange-400" /> Documents & Artifacts
-                </h3>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  {caseStudy.documents.map((doc, idx) => (
-                    <a 
-                      key={idx} 
-                      href={doc.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:border-orange-300 dark:hover:border-orange-700 hover:shadow-md transition-all group"
-                    >
-                      <div className="bg-orange-50 dark:bg-orange-900/30 p-2 rounded-lg text-orange-600 dark:text-orange-400 mr-4 group-hover:bg-orange-100 dark:group-hover:bg-orange-900/50 transition-colors">
-                        <File className="w-5 h-5" />
-                      </div>
-                      <div className="flex-grow">
-                        <div className="font-medium text-slate-900 dark:text-white">{doc.name}</div>
-                        <div className="text-xs text-slate-500 dark:text-slate-400">{doc.type}</div>
-                      </div>
-                      <Download className="w-4 h-4 text-slate-400 dark:text-slate-500 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors" />
-                    </a>
-                  ))}
-                </div>
-              </div>
-           )}
-
-           {/* Prototype Embed Section (Optional) */}
-           {caseStudy.prototype?.embedUrl && (
-              <div>
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 flex items-center">
-                   <Code className="w-6 h-6 mr-3 text-indigo-600 dark:text-indigo-400" /> {caseStudy.prototype.title || "Prototype"}
-                </h3>
-
-                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm">
-                  <div className="aspect-[16/9] w-full">
-                    <iframe
-                      title={caseStudy.prototype.title || "Figma Prototype"}
-                      src={caseStudy.prototype.embedUrl}
-                      className="w-full h-full"
-                      allowFullScreen
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="p-4 text-xs text-slate-500 dark:text-slate-400 border-t border-slate-100 dark:border-slate-800">
-                    Tip: If you see a blank embed, make sure your Figma share link is set to “Anyone with the link can view”.
-                  </div>
-                </div>
-              </div>
-           )}
-
-           {/* Reflection */}
-           <div className="bg-slate-900 dark:bg-slate-800 text-white p-8 rounded-2xl relative overflow-hidden shadow-lg">
-              <div className="absolute top-0 right-0 -mt-4 -mr-4 text-slate-800 dark:text-slate-700 opacity-20">
-                 <Sparkles className="w-32 h-32" />
-              </div>
-              <h3 className="text-xl font-bold mb-4 relative z-10">💭 Reflection</h3>
-              <p className="text-slate-300 text-lg leading-relaxed relative z-10 italic">
-                 "{caseStudy.reflection}"
-              </p>
-           </div>
+            </div>
+          )}
+          {/* Reflection */}
+          <div className="bg-slate-900 dark:bg-slate-800 text-white p-8 rounded-2xl relative overflow-hidden shadow-lg">
+            <div className="absolute top-0 right-0 -mt-4 -mr-4 text-slate-800 dark:text-slate-700 opacity-20">
+              <Sparkles className="w-32 h-32" />
+            </div>
+            <h3 className="text-xl font-bold mb-4 relative z-10">💭 Reflection</h3>
+            <p className="text-slate-300 text-lg leading-relaxed relative z-10 italic">
+              {caseStudy.reflection
+                ? `"${caseStudy.reflection}"`
+                : "If you're curious about details or want artifacts, feel free to reach out — happy to walk through the work."
+              }
+            </p>
+          </div>
         </div>
-
       </div>
     </div>
   );
 };
+
 
 const ProjectCard = ({ project, onOpenCaseStudy }) => {
   const [insight, setInsight] = useState(null);
@@ -1165,33 +1374,37 @@ const App = () => {
   const [activeTab, setActiveTab] = useState('home');
   const [selectedProject, setSelectedProject] = useState(null);
   const [showResume, setShowResume] = useState(false);
+  const [selectedWork, setSelectedWork] = useState(null);
 
   return (
     <div className="min-h-screen w-full transition-colors duration-300">
       <div className="min-h-screen w-full bg-white dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-100 selection:bg-blue-100 selection:text-blue-900 transition-colors duration-300">
-        
-        {/* Modal for Case Studies */}
-        {selectedProject && (
-          <CaseStudyModal 
-            project={selectedProject} 
-            onClose={() => setSelectedProject(null)} 
+        {/* Modal for Work Case Study */}
+        {selectedWork && (
+          <WorkCaseStudyModal
+            job={selectedWork}
+            onClose={() => setSelectedWork(null)}
           />
         )}
-
+        {/* Modal for Case Studies */}
+        {selectedProject && (
+          <CaseStudyModal
+            project={selectedProject}
+            onClose={() => setSelectedProject(null)}
+          />
+        )}
         {/* Modal for Resume */}
         {showResume && (
           <ResumeModal onClose={() => setShowResume(false)} />
         )}
-
         {/* Main Navigation (Hidden when modal is open) */}
-        {!selectedProject && !showResume && (
-           <Navigation 
-             activeTab={activeTab} 
-             setActiveTab={setActiveTab} 
-           />
+        {!selectedProject && !showResume && !selectedWork && (
+          <Navigation
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+          />
         )}
-        
-        <main className={`min-h-screen w-full pt-16 ${selectedProject || showResume ? 'hidden' : 'block'}`}>
+        <main className={`min-h-screen w-full pt-16 ${selectedProject || showResume || selectedWork ? 'hidden' : 'block'}`}>
           {activeTab === 'home' && (
             <div className="animate-in fade-in duration-500">
               <Hero onOpenResume={() => setShowResume(true)} />
@@ -1199,13 +1412,11 @@ const App = () => {
               <ContactSection onOpenResume={() => setShowResume(true)} />
             </div>
           )}
-
           {activeTab === 'work' && (
             <div className="animate-in fade-in duration-500">
-              <WorkTimeline />
+              <WorkTimeline onOpenWork={setSelectedWork} />
             </div>
           )}
-
           {activeTab === 'education' && (
             <div className="animate-in fade-in duration-500">
               <EducationView onOpenProject={(project) => {
@@ -1213,7 +1424,6 @@ const App = () => {
               }} />
             </div>
           )}
-
           {activeTab === 'projects' && (
             <div className="animate-in fade-in duration-500">
               <ProjectsGrid onOpenCaseStudy={setSelectedProject} />
