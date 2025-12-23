@@ -9,9 +9,6 @@ import {
   Award, BookOpen, Link as LinkIcon, Printer, Eye
 } from 'lucide-react';
 
-// --- CONFIGURATION ---
-const GEMINI_API_KEY = ""; // Automatically injected by the environment
-
 // --- DATA ---
 const PORTFOLIO_DATA = {
   name: "Bharath Vittal",
@@ -160,6 +157,8 @@ const PORTFOLIO_DATA = {
       title: "CandyQ-ty (Hershey Partnered)",
       tags: ["IoT", "Voice AI", "GTM Strategy"],
       description: "Designed a voice-activated smart candy dispenser to solve portion control for parents. Developed full IMC + GTM plan ($18.9M budget) and pricing models for Hershey's first consumer tech product.",
+      businessInsight: "Clear GTM + pricing model for a new consumer device; ties fun + portion control to a realistic $18.9M launch plan and unit economics.",
+      techInsight: "Voice-activated IoT concept with privacy-first design (no data storage), plus motion detection + parent app controls for limits and safety.",
       resumeBullets: [
         "Led customer segmentation, pricing, and GTM strategy for a voice-activated IoT product",
         "Built COGS, margin, and breakeven models (~294K units)",
@@ -205,6 +204,9 @@ const PORTFOLIO_DATA = {
       title: "Fliteboard Platform",
       tags: ["Platform Strategy", "Network Effects", "Hardware+Software"],
       description: "Designed a platform strategy spanning riders, instructors, and developers to drive recurring revenue and defensibility for a premium hardware brand.",
+      businessInsight: "Turns one-time hardware sales into recurring revenue via subscriptions, instructor tools, and partner ecosystem monetization.",
+      techInsight: "Platform design mapping direct/indirect/data network effects with the app as the system of record for rides, community, and partner integrations.",
+      
       resumeBullets: [
         "Designed platform strategy connecting riders, instructors, partners, and developers",
         "Mapped direct, indirect, and data network effects",
@@ -245,6 +247,9 @@ const PORTFOLIO_DATA = {
       title: "Zoho Global Strategy",
       tags: ["Corporate Strategy", "SaaS", "AI"],
       description: "Developed a comprehensive strategy case for Zoho to scale globally and expand AI capabilities while remaining bootstrapped and privacy-first.",
+      businessInsight: "Strategy case balancing global growth with bootstrapped discipline—vertical plays and domain copilots without sacrificing privacy-first positioning.",
+      techInsight: "AI expansion framed as domain-specific copilots on an integrated suite, avoiding dependency-heavy partnerships and preserving cost advantages.",
+      
       resumeBullets: [
         "Conducted PESTEL, Porter’s, SWOT, and VRIN-O analyses",
         "Evaluated AI expansion and platform strategy while preserving cost leadership and privacy ethos"
@@ -284,6 +289,9 @@ const PORTFOLIO_DATA = {
       title: "ThreadWise",
       tags: ["Sustainable Fashion", "Product Discovery", "Figma"],
       description: "A discovery platform helping users find affordable, well-fitting, sustainable clothing using material filters. Top-3 project at NEU showcase.",
+      businessInsight: "Makes sustainable shopping easier with transparency and fit guidance; affiliate commission model tested with clear adoption assumptions.",
+      techInsight: "Discovery/MVP work focused on filters (materials), fit recommendations, and UX clarity; prototyped and validated through user research.",
+      
       resumeBullets: [
         "Led user research and MVP definition; project ranked Top 1 of 15+ teams"
       ],
@@ -324,6 +332,9 @@ const PORTFOLIO_DATA = {
       title: "ElderTend",
       tags: ["HealthTech", "Caregiver Platform", "Journey Mapping"],
       description: "Unified platform for elderly users, caregivers, and families. Defined roadmap, GTM, and metrics for an end-to-end product proposal.",
+      businessInsight: "Caregiver + family coordination platform with a freemium path; success measured via engagement and reliability in critical moments.",
+      techInsight: "Journey-mapped health workflows and designed an end-to-end app concept (alerts, vitals, appointments) with accessibility-first UX.",
+      
       resumeBullets: [
         "Conducted caregiver interviews and co-developed PRD, wireframes, and GTM recommendations"
       ],
@@ -367,6 +378,9 @@ const PORTFOLIO_DATA = {
       title: "Automotive Factory Automation",
       tags: ["Industrial Automation", "Project Management", "Process Optimization"],
       description: "Proposed automation of an automotive factory's welding, painting, and assembly stations to eliminate inefficiencies, improve quality, and optimize safety.",
+      businessInsight: "Automation proposal with ~$20M budget targeting efficiency gains, quality consistency, and safety improvements with a defined break-even path.",
+      techInsight: "Robotics-based process redesign (MIG welding, painting, assembly alignment) integrated into existing conveyor constraints with risk planning.",
+      
       resumeBullets: [],
       link: "#",
       caseStudy: {
@@ -409,35 +423,6 @@ const PORTFOLIO_DATA = {
   }
 };
 
-// --- API UTILS ---
-
-const callGemini = async (prompt, systemInstruction = "") => {
-  try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${GEMINI_API_KEY}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          systemInstruction: { parts: [{ text: systemInstruction }] },
-        }),
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`API Error: ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    return data.candidates?.[0]?.content?.parts?.[0]?.text || "I couldn't generate a response right now.";
-  } catch (error) {
-    console.error("Gemini API Error:", error);
-    return "Sorry, I'm having trouble connecting to my brain right now. Please try again later.";
-  }
-};
 
 // --- COMPONENTS ---
 
@@ -1040,24 +1025,10 @@ const ProjectCard = ({ project, onOpenCaseStudy }) => {
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState(null); // 'recruiter' or 'tech'
 
-  const generateInsight = async (targetAudience) => {
-    if (loading) return;
-    setLoading(true);
-    setMode(targetAudience);
-    setInsight(null);
 
-    const prompt = `Explain the project "${project.title}" to a ${targetAudience}. 
-    The project description is: "${project.description}". 
-    The tags are: ${project.tags ? project.tags.join(', ') : ''}.
-    Keep it brief (max 2 sentences) and focus on ${targetAudience === 'Recruiter' ? 'business impact and ROI' : 'technical complexity and architecture'}.`;
-
-    const response = await callGemini(prompt, "You are an expert technical portfolio reviewer.");
-    setInsight(response);
-    setLoading(false);
-  };
 
   return (
-    <div className="group bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 dark:border-slate-800 flex flex-col h-full">
+    <div className="group bg-white dark:bg-slate-900 rounded-2xl overflow-visible shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 dark:border-slate-800 flex flex-col h-full">
       <div className="h-48 bg-slate-100 dark:bg-slate-800 relative overflow-hidden shrink-0">
         <div className="absolute inset-0 bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-800 group-hover:scale-105 transition-transform duration-500" />
         <div className="absolute bottom-4 left-4">
@@ -1079,48 +1050,48 @@ const ProjectCard = ({ project, onOpenCaseStudy }) => {
           {project.description}
         </p>
 
-        {/* AI Insight Section */}
-        <div className="mt-auto mb-4">
-          {!insight && !loading && (
-             <div className="flex gap-2 mb-2">
-                <p className="text-xs font-semibold text-slate-400 w-full mb-1">✨ AI Insight Lens:</p>
-             </div>
-          )}
-          
-          {!insight && !loading && (
-            <div className="flex gap-2">
-              <button 
-                onClick={() => generateInsight('Recruiter')}
-                className="flex-1 flex items-center justify-center gap-1 py-1.5 px-3 rounded-lg text-xs font-medium bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 border border-purple-200 dark:border-purple-800 transition-colors"
-              >
-                <TrendingUp className="w-3 h-3" /> Business
-              </button>
-              <button 
-                onClick={() => generateInsight('Senior Engineer')}
-                className="flex-1 flex items-center justify-center gap-1 py-1.5 px-3 rounded-lg text-xs font-medium bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 border border-emerald-200 dark:border-emerald-800 transition-colors"
-              >
-                <Cpu className="w-3 h-3" /> Tech
-              </button>
-            </div>
-          )}
+        {/* Insight Lens (fixed, hover, no AI calls) */}
+<div className="mt-auto mb-4">
+  <p className="text-xs font-semibold text-slate-400 w-full mb-2">✨ Insight Lens:</p>
 
-          {loading && (
-            <div className="p-3 bg-slate-50 dark:bg-slate-800 rounded-lg text-xs text-slate-500 dark:text-slate-400 animate-pulse flex items-center justify-center">
-              <Sparkles className="w-3 h-3 mr-2 text-yellow-500" /> Generating insight...
-            </div>
-          )}
+  <div className="flex gap-2">
+    {/* Business Insight */}
+    <div className="relative group/insight flex-1">
+      <button
+        type="button"
+        className="w-full flex items-center justify-center gap-1 py-1.5 px-3 rounded-lg text-xs font-medium bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 border border-purple-200 dark:border-purple-800 transition-colors"
+        aria-label="Business insight"
+      >
+        <TrendingUp className="w-3 h-3" /> Business
+      </button>
 
-          {insight && (
-            <div className={`p-3 rounded-lg text-xs leading-relaxed animate-in fade-in zoom-in-95 duration-300 relative ${mode === 'Recruiter' ? 'bg-purple-50 dark:bg-purple-900/20 text-purple-900 dark:text-purple-200 border border-purple-100 dark:border-purple-800' : 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-900 dark:text-emerald-200 border border-emerald-100 dark:border-emerald-800'}`}>
-               <button onClick={() => setInsight(null)} className="absolute top-1 right-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"><X className="w-3 h-3"/></button>
-               <div className="font-semibold mb-1 flex items-center gap-1">
-                 {mode === 'Recruiter' ? <TrendingUp className="w-3 h-3"/> : <Cpu className="w-3 h-3"/>}
-                 {mode === 'Recruiter' ? 'Business Value' : 'Technical View'}:
-               </div>
-               {insight}
-            </div>
-          )}
+      <div className="pointer-events-none opacity-0 group-hover/insight:opacity-100 group-focus-within/insight:opacity-100 transition-opacity absolute left-0 right-0 mt-2 z-20">
+        <div className="rounded-lg border border-purple-100 dark:border-purple-800 bg-white dark:bg-slate-900 shadow-lg p-3 text-xs leading-relaxed text-slate-700 dark:text-slate-200">
+          {project.businessInsight || "Business insight coming soon."}
         </div>
+      </div>
+    </div>
+
+    {/* Tech Insight */}
+    <div className="relative group/insight flex-1">
+      <button
+        type="button"
+        className="w-full flex items-center justify-center gap-1 py-1.5 px-3 rounded-lg text-xs font-medium bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 border border-emerald-200 dark:border-emerald-800 transition-colors"
+        aria-label="Technical insight"
+      >
+        <Cpu className="w-3 h-3" /> Tech
+      </button>
+
+      <div className="pointer-events-none opacity-0 group-hover/insight:opacity-100 group-focus-within/insight:opacity-100 transition-opacity absolute left-0 right-0 mt-2 z-20">
+        <div className="rounded-lg border border-emerald-100 dark:border-emerald-800 bg-white dark:bg-slate-900 shadow-lg p-3 text-xs leading-relaxed text-slate-700 dark:text-slate-200">
+          {project.techInsight || "Technical insight coming soon."}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        
         
         {project.caseStudy ? (
            <button 
