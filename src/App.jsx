@@ -1229,239 +1229,267 @@ const WorkCaseStudyModal = ({ job, onClose }) => {
 };
 
 // --- CaseStudyModal (Projects) ---
+// Dark, polished case-study layout (matches screenshot aesthetic)
 const CaseStudyModal = ({ project, onClose }) => {
   if (!project?.caseStudy) return null;
   const cs = project.caseStudy;
 
   const hasDocuments = Array.isArray(cs.documents) && cs.documents.length > 0;
-  const hasPrototype = !!cs.prototype?.embedUrl;
+
+  // Safe helpers
+  const overview = cs.overview || {};
+  const market = cs.market || {};
+  const financials = cs.financials || {};
+
+  const formatLabel = (k) =>
+    k
+      .replace(/([A-Z])/g, " $1")
+      .replace(/^./, (c) => c.toUpperCase());
 
   return (
-    <div className="fixed inset-0 z-[60] overflow-y-auto bg-white dark:bg-slate-950 animate-in slide-in-from-bottom-10 duration-300">
-      <div className="max-w-5xl mx-auto px-4 py-8 md:py-16">
+    <div className="fixed inset-0 z-[60] overflow-y-auto bg-slate-950 text-slate-100">
+      {/* Subtle background glow */}
+      <div className="pointer-events-none fixed inset-0">
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[900px] rounded-full bg-blue-600/10 blur-3xl" />
+        <div className="absolute -bottom-60 right-1/3 w-[800px] h-[800px] rounded-full bg-purple-600/10 blur-3xl" />
+      </div>
+
+      <div className="relative max-w-5xl mx-auto px-4 py-10 md:py-16">
         {/* Header */}
         <div className="mb-10">
           <button
             onClick={onClose}
-            className="flex items-center text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors mb-6 group"
+            className="inline-flex items-center text-slate-400 hover:text-white transition-colors mb-6 group"
           >
             <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
             Back to Projects
           </button>
 
-          <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-3 leading-tight">
+          <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-3 leading-tight text-center">
             {project.title}
           </h1>
 
-          <p className="text-slate-600 dark:text-slate-400 text-base md:text-lg leading-relaxed max-w-3xl">
-            {project.description}
-          </p>
-
           {Array.isArray(project.tags) && project.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mt-6">
+            <div className="flex flex-wrap justify-center gap-2 mb-6">
               {project.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="text-xs font-semibold bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-800"
+                  className="text-[10px] uppercase tracking-wider font-semibold bg-slate-900/60 border border-slate-800 text-slate-200 px-3 py-1 rounded-full"
                 >
                   {tag}
                 </span>
               ))}
             </div>
           )}
+
+          <p className="text-slate-400 text-base md:text-lg leading-relaxed max-w-3xl mx-auto text-center">
+            {project.description}
+          </p>
         </div>
 
-        {/* Overview */}
-        {cs.overview && (
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 p-6 bg-slate-50 dark:bg-slate-900 rounded-2xl mb-12 border border-slate-100 dark:border-slate-800">
-            <div>
-              <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Duration</div>
-              <div className="font-medium text-slate-900 dark:text-white">{cs.overview.duration || "—"}</div>
+        {/* Overview (dark pill bar) */}
+        <div className="mb-12">
+          <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              <div>
+                <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest mb-1">Duration</div>
+                <div className="font-semibold text-slate-100">{overview.duration || "—"}</div>
+              </div>
+              <div>
+                <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest mb-1">Role</div>
+                <div className="font-semibold text-slate-100">{overview.role || "—"}</div>
+              </div>
+              <div>
+                <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest mb-1">Team</div>
+                <div className="font-semibold text-slate-100">{overview.team || "—"}</div>
+              </div>
+              <div>
+                <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-widest mb-1">Context</div>
+                <div className="font-semibold text-slate-100">{overview.type || "—"}</div>
+              </div>
             </div>
+          </div>
+        </div>
+
+        {/* Problem + Solution (two-column like screenshot) */}
+        <div className="grid md:grid-cols-2 gap-8 mb-12">
+          {cs.problem && (
             <div>
-              <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Type</div>
-              <div className="font-medium text-slate-900 dark:text-white">{cs.overview.type || "—"}</div>
+              <div className="flex items-center gap-2 text-rose-300 font-semibold mb-3">
+                <HelpCircle className="w-4 h-4" />
+                <span>The Problem</span>
+              </div>
+              <p className="text-slate-300 leading-relaxed">
+                {cs.problem}
+              </p>
             </div>
+          )}
+
+          {cs.solution && (
             <div>
-              <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Role</div>
-              <div className="font-medium text-slate-900 dark:text-white">{cs.overview.role || "—"}</div>
+              <div className="flex items-center gap-2 text-emerald-300 font-semibold mb-3">
+                <Lightbulb className="w-4 h-4" />
+                <span>The Solution</span>
+              </div>
+              <p className="text-slate-300 leading-relaxed">
+                {cs.solution}
+              </p>
             </div>
-            <div>
-              <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Team</div>
-              <div className="font-medium text-slate-900 dark:text-white">{cs.overview.team || "—"}</div>
+          )}
+        </div>
+
+        {/* Market & Business Logic + Financials (combined card row) */}
+        {(cs.market || cs.financials) && (
+          <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-6 mb-14">
+            <div className="flex items-center gap-2 text-slate-200 font-bold mb-6">
+              <BarChart3 className="w-5 h-5 text-slate-300" />
+              <span>Market & Business Logic</span>
             </div>
-            <div>
-              <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Partner</div>
-              <div className="font-medium text-slate-900 dark:text-white">{cs.overview.partner || cs.overview.course || "—"}</div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Market */}
+              <div className="bg-slate-950/40 border border-slate-800 rounded-xl p-5">
+                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
+                  Target Market
+                </div>
+                <div className="text-slate-200 font-medium mb-4">
+                  {market.target || "—"}
+                </div>
+
+                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+                  Opportunity
+                </div>
+                <div className="text-slate-300">
+                  {market.opportunity || "—"}
+                </div>
+              </div>
+
+              {/* Financials */}
+              <div className="bg-slate-950/40 border border-slate-800 rounded-xl p-5">
+                <div className="flex items-center gap-2 mb-3 text-slate-200 font-bold">
+                  <PieChart className="w-4 h-4 text-slate-300" />
+                  <span className="text-sm">Financials & Projections</span>
+                </div>
+
+                <div className="space-y-2 text-sm">
+                  {Object.keys(financials).length === 0 ? (
+                    <div className="text-slate-400">—</div>
+                  ) : (
+                    Object.entries(financials).map(([k, v]) => (
+                      <div key={k} className="flex items-center justify-between gap-4">
+                        <div className="text-slate-500">{formatLabel(k)}</div>
+                        <div className="text-slate-200 font-semibold text-right">{String(v)}</div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         )}
 
-        {/* Content */}
-        <div className="space-y-16 text-slate-700 dark:text-slate-300">
-          {/* Problem */}
-          {cs.problem && (
-            <section>
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 flex items-center">
-                <HelpCircle className="w-6 h-6 mr-3 text-blue-600 dark:text-blue-400" /> Problem
-              </h2>
-              <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                {cs.problem}
-              </p>
-            </section>
-          )}
-
-          {/* Solution */}
-          {cs.solution && (
-            <section>
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 flex items-center">
-                <Sparkles className="w-6 h-6 mr-3 text-purple-600 dark:text-purple-400" /> Solution
-              </h2>
-              <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                {cs.solution}
-              </p>
-            </section>
-          )}
-
-          {/* Market */}
-          {cs.market && (
-            <section>
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 flex items-center">
-                <Users className="w-6 h-6 mr-3 text-emerald-600 dark:text-emerald-400" /> Market
-              </h2>
-
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm">
-                  <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2">Target</div>
-                  <div className="font-medium text-slate-900 dark:text-white">{cs.market.target || "—"}</div>
-                </div>
-
-                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm">
-                  <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2">Opportunity</div>
-                  <div className="font-medium text-slate-900 dark:text-white">{cs.market.opportunity || "—"}</div>
-                </div>
-              </div>
-            </section>
-          )}
-
-          {/* Financials */}
-          {cs.financials && (
-            <section>
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 flex items-center">
-                <BarChart3 className="w-6 h-6 mr-3 text-yellow-500 dark:text-yellow-300" /> Financials
-              </h2>
-
-              <div className="grid md:grid-cols-2 gap-6">
-                {Object.entries(cs.financials).map(([k, v]) => (
-                  <div key={k} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm">
-                    <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-2">
-                      {k.replace(/([A-Z])/g, " $1").replace(/^./, (c) => c.toUpperCase())}
-                    </div>
-                    <div className="font-medium text-slate-900 dark:text-white">
-                      {String(v)}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* My Role */}
-          {Array.isArray(cs.myRole) && cs.myRole.length > 0 && (
-            <section>
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 flex items-center">
-                <User className="w-6 h-6 mr-3 text-blue-600 dark:text-blue-400" /> My Role
-              </h2>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {cs.myRole.map((r, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-center px-4 py-2 bg-blue-50 dark:bg-blue-900/20 rounded-full border border-blue-100 dark:border-blue-900/30 text-slate-900 dark:text-white font-medium text-sm"
-                  >
-                    {r}
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Documents */}
-          {hasDocuments && (
-            <section>
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 flex items-center">
-                <FileText className="w-6 h-6 mr-3 text-slate-700 dark:text-slate-200" /> Documents
-              </h2>
-
-              <div className="grid md:grid-cols-2 gap-4">
-                {cs.documents.map((doc, idx) => (
-                  <a
-                    key={idx}
-                    href={doc.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex items-center justify-between p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl hover:shadow-md transition-all"
-                  >
-                    <div className="flex items-center gap-3">
-                      <File className="w-5 h-5 text-slate-500 dark:text-slate-400" />
-                      <div>
-                        <div className="font-semibold text-slate-900 dark:text-white">{doc.name}</div>
-                        <div className="text-xs text-slate-500 dark:text-slate-400">{doc.type}</div>
-                      </div>
-                    </div>
-                    <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400" />
-                  </a>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Prototype */}
-          {hasPrototype && (
-            <section>
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 flex items-center">
-                <LinkIcon className="w-6 h-6 mr-3 text-emerald-600 dark:text-emerald-400" /> Prototype
-              </h2>
-
-              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden">
-                <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
-                  <div className="font-semibold text-slate-900 dark:text-white">
-                    {cs.prototype?.title || "Prototype"}
-                  </div>
-                  <a
-                    href={cs.prototype.embedUrl.replace("embed.figma.com", "www.figma.com")}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center"
-                  >
-                    Open in Figma <ExternalLink className="w-4 h-4 ml-2" />
-                  </a>
-                </div>
-                <div className="aspect-[16/10] w-full bg-slate-50 dark:bg-slate-950">
-                  <iframe
-                    title={cs.prototype?.title || "Prototype"}
-                    src={cs.prototype.embedUrl}
-                    loading="lazy"
-                    className="w-full h-full"
-                    allowFullScreen
-                  />
-                </div>
-              </div>
-            </section>
-          )}
-
-          {/* Reflection */}
-          <section>
-            <div className="bg-slate-900 dark:bg-slate-800 text-white p-8 rounded-2xl relative overflow-hidden shadow-lg">
-              <div className="absolute top-0 right-0 -mt-4 -mr-4 text-slate-800 dark:text-slate-700 opacity-20">
-                <Sparkles className="w-32 h-32" />
-              </div>
-              <h3 className="text-xl font-bold mb-4 relative z-10">💭 Reflection</h3>
-              <p className="text-slate-300 text-lg leading-relaxed relative z-10 italic">
-                {cs.reflection ? `"${cs.reflection}"` : "If you're curious about details or want artifacts, feel free to reach out — happy to walk through the work."}
-              </p>
+        {/* My Role & Contributions (purple chips) */}
+        {Array.isArray(cs.myRole) && cs.myRole.length > 0 && (
+          <div className="mb-14">
+            <div className="flex items-center gap-2 text-slate-200 font-bold mb-6">
+              <Layers className="w-5 h-5 text-purple-300" />
+              <span>My Role & Contributions</span>
             </div>
-          </section>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {cs.myRole.map((r, idx) => (
+                <div
+                  key={idx}
+                  className="bg-purple-900/20 border border-purple-800/40 rounded-xl px-5 py-4 text-slate-100 font-semibold text-sm"
+                >
+                  {r}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Documents & Artifacts */}
+        {hasDocuments && (
+          <div className="mb-14">
+            <div className="flex items-center gap-2 text-slate-200 font-bold mb-6">
+              <FileText className="w-5 h-5 text-orange-300" />
+              <span>Documents & Artifacts</span>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4">
+              {cs.documents.map((doc, idx) => (
+                <a
+                  key={idx}
+                  href={doc.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group bg-slate-900/40 border border-slate-800 rounded-xl p-5 hover:bg-slate-900/60 hover:border-slate-700 transition-all flex items-center justify-between"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-slate-950/40 border border-slate-800 flex items-center justify-center">
+                      <File className="w-5 h-5 text-orange-300" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-slate-100">{doc.name}</div>
+                      <div className="text-xs text-slate-500">{doc.type}</div>
+                    </div>
+                  </div>
+                  <ExternalLink className="w-4 h-4 text-slate-500 group-hover:text-white transition-colors" />
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Prototype */}
+        {cs.prototype?.embedUrl && (
+          <div className="mb-14">
+            <div className="flex items-center gap-2 text-slate-200 font-bold mb-6">
+              <LinkIcon className="w-5 h-5 text-emerald-300" />
+              <span>Prototype</span>
+            </div>
+
+            <div className="bg-slate-900/40 border border-slate-800 rounded-2xl overflow-hidden">
+              <div className="p-4 border-b border-slate-800 flex items-center justify-between">
+                <div className="font-semibold text-slate-100">
+                  {cs.prototype?.title || "Prototype"}
+                </div>
+                <a
+                  href={cs.prototype.embedUrl.replace("embed.figma.com", "www.figma.com")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-semibold text-emerald-300 hover:text-emerald-200 hover:underline inline-flex items-center"
+                >
+                  Open in Figma <ExternalLink className="w-4 h-4 ml-2" />
+                </a>
+              </div>
+              <div className="aspect-[16/10] w-full bg-slate-950">
+                <iframe
+                  title={cs.prototype?.title || "Prototype"}
+                  src={cs.prototype.embedUrl}
+                  loading="lazy"
+                  className="w-full h-full"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Reflection */}
+        <div className="mb-4">
+          <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-6">
+            <div className="flex items-center gap-2 text-slate-200 font-bold mb-4">
+              <MessageSquare className="w-5 h-5 text-slate-300" />
+              <span>Reflection</span>
+            </div>
+            <p className="text-slate-300 leading-relaxed italic">
+              {cs.reflection
+                ? `"${cs.reflection}"`
+                : "If you're curious about details or want artifacts, feel free to reach out — happy to walk through the work."}
+            </p>
+          </div>
         </div>
       </div>
     </div>
