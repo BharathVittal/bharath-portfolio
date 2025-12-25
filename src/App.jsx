@@ -957,9 +957,11 @@ const AboutPreview = () => {
 
   const [loadedImages, setLoadedImages] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [prevIndex, setPrevIndex] = useState(0);
-  const [fadeIn, setFadeIn] = useState(true);
-  const swapTimeoutRef = useRef(null);
+  const [nextIndex, setNextIndex] = useState(0);
+  const [isCrossfading, setIsCrossfading] = useState(false);
+
+  const intervalRef = useRef(null);
+  const timeoutRef = useRef(null);
 
   // Preload images once, and only rotate through the ones that actually load.
   useEffect(() => {
@@ -982,7 +984,7 @@ const AboutPreview = () => {
       if (isMounted) {
         setLoadedImages(ok.length > 0 ? ok : [images[0]]);
         setCurrentIndex(0);
-        setPrevIndex(0);
+        setNextIndex(0);
       }
 
       // Helpful debug (won’t break prod):
@@ -1002,38 +1004,45 @@ const AboutPreview = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Rotate images sequentially with a crossfade (every 3 seconds).
+  // Rotate images strictly in order: show each for 3s, then crossfade to next.
   useEffect(() => {
     if (!loadedImages || loadedImages.length <= 1) return;
 
-    const interval = setInterval(() => {
-      setFadeIn(false);
+    // Ensure indices are in range whenever loadedImages changes
+    setCurrentIndex((i) => i % loadedImages.length);
+    setNextIndex((i) => i % loadedImages.length);
 
-      // Clear any previous pending swap
-      if (swapTimeoutRef.current) {
-        clearTimeout(swapTimeoutRef.current);
-      }
+    // Clear any existing timers
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
-      // After fade-out starts, swap to next image.
-      swapTimeoutRef.current = setTimeout(() => {
-        setPrevIndex((p) => p); // keep last shown as base
-        setCurrentIndex((i) => {
-          const next = (i + 1) % loadedImages.length;
-          setPrevIndex(i);
-          return next;
-        });
-        setFadeIn(true);
-      }, 250);
+    intervalRef.current = setInterval(() => {
+      // compute next deterministically from currentIndex
+      setNextIndex((_) => {
+        const next = (currentIndex + 1) % loadedImages.length;
+        return next;
+      });
+
+      // start crossfade
+      setIsCrossfading(true);
+
+      // after fade duration, commit the next as current
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => {
+        setCurrentIndex((_) => (currentIndex + 1) % loadedImages.length);
+        setIsCrossfading(false);
+      }, 700);
     }, 3000);
 
     return () => {
-      clearInterval(interval);
-      if (swapTimeoutRef.current) clearTimeout(swapTimeoutRef.current);
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [loadedImages]);
+    // We intentionally depend on `loadedImages` and `currentIndex` so the next index is computed in order.
+  }, [loadedImages, currentIndex]);
 
   const currentSrc = (loadedImages && loadedImages[currentIndex]) || images[0];
-  const prevSrc = (loadedImages && loadedImages[prevIndex]) || images[0];
+  const upcomingSrc = (loadedImages && loadedImages[nextIndex]) || images[0];
 
   return (
     <div className="bg-slate-50 dark:bg-slate-900/50 py-24 px-4 transition-colors duration-300">
@@ -1090,20 +1099,20 @@ const AboutPreview = () => {
 
         <div className="space-y-6">
           <div className="relative h-80 rounded-2xl overflow-hidden shadow-xl group">
-            {/* Previous image (base) */}
+            {/* Current image (base layer) */}
             <img
-              src={prevSrc}
+              src={currentSrc}
               alt="Bharath Vittal visual"
               className="absolute inset-0 w-full h-full object-cover"
               loading="eager"
             />
 
-            {/* Current image (fades in/out) */}
+            {/* Next image (top layer) */}
             <img
-              src={currentSrc}
+              src={upcomingSrc}
               alt="Bharath Vittal visual"
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
-                fadeIn ? "opacity-100" : "opacity-0"
+                isCrossfading ? "opacity-100" : "opacity-0"
               }`}
               loading="lazy"
             />
