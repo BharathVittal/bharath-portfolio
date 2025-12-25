@@ -956,9 +956,10 @@ const AboutPreview = () => {
   ];
 
   const [loadedImages, setLoadedImages] = useState([]);
-  const [currentImage, setCurrentImage] = useState(0);
-  const [prevImage, setPrevImage] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [prevIndex, setPrevIndex] = useState(0);
   const [fadeIn, setFadeIn] = useState(true);
+  const swapTimeoutRef = useRef(null);
 
   // Preload images once, and only rotate through the ones that actually load.
   useEffect(() => {
@@ -980,8 +981,8 @@ const AboutPreview = () => {
       const ok = results.filter((r) => r.ok).map((r) => r.src);
       if (isMounted) {
         setLoadedImages(ok.length > 0 ? ok : [images[0]]);
-        setCurrentImage(0);
-        setPrevImage(0);
+        setCurrentIndex(0);
+        setPrevIndex(0);
       }
 
       // Helpful debug (won’t break prod):
@@ -1001,26 +1002,38 @@ const AboutPreview = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Rotate images with a crossfade.
+  // Rotate images sequentially with a crossfade (every 3 seconds).
   useEffect(() => {
     if (!loadedImages || loadedImages.length <= 1) return;
 
     const interval = setInterval(() => {
       setFadeIn(false);
 
+      // Clear any previous pending swap
+      if (swapTimeoutRef.current) {
+        clearTimeout(swapTimeoutRef.current);
+      }
+
       // After fade-out starts, swap to next image.
-      setTimeout(() => {
-        setPrevImage(currentImage);
-        setCurrentImage((prev) => (prev + 1) % loadedImages.length);
+      swapTimeoutRef.current = setTimeout(() => {
+        setPrevIndex((p) => p); // keep last shown as base
+        setCurrentIndex((i) => {
+          const next = (i + 1) % loadedImages.length;
+          setPrevIndex(i);
+          return next;
+        });
         setFadeIn(true);
-      }, 350);
-    }, 4500);
+      }, 250);
+    }, 3000);
 
-    return () => clearInterval(interval);
-  }, [loadedImages, currentImage]);
+    return () => {
+      clearInterval(interval);
+      if (swapTimeoutRef.current) clearTimeout(swapTimeoutRef.current);
+    };
+  }, [loadedImages]);
 
-  const currentSrc = (loadedImages && loadedImages[currentImage]) || images[0];
-  const prevSrc = (loadedImages && loadedImages[prevImage]) || images[0];
+  const currentSrc = (loadedImages && loadedImages[currentIndex]) || images[0];
+  const prevSrc = (loadedImages && loadedImages[prevIndex]) || images[0];
 
   return (
     <div className="bg-slate-50 dark:bg-slate-900/50 py-24 px-4 transition-colors duration-300">
@@ -1096,9 +1109,14 @@ const AboutPreview = () => {
             />
 
             {/* Lighter overlay to let images show through */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/35 via-blue-600/15 to-slate-900/20 flex flex-col items-center justify-center text-white p-6 text-center">
-              <span className="text-2xl font-bold mb-2 drop-shadow">Bharath Vittal</span>
-              <span className="text-sm opacity-95 drop-shadow">{PORTFOLIO_DATA.tagline}</span>
+            <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/15 via-transparent to-slate-950/10" />
+
+            {/* Bottom caption so image stays visible */}
+            <div className="absolute left-0 right-0 bottom-0 p-5 text-white text-left">
+              <div className="inline-block rounded-xl px-4 py-3 bg-slate-950/45 backdrop-blur-sm border border-white/10">
+                <div className="text-xl font-bold leading-tight drop-shadow">Bharath Vittal</div>
+                <div className="text-sm opacity-95 drop-shadow">{PORTFOLIO_DATA.tagline}</div>
+              </div>
             </div>
           </div>
 
