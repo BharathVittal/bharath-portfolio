@@ -952,84 +952,169 @@ const AboutPreview = () => {
     "/assets/images/1.jpg",
     "/assets/images/2.jpg",
     "/assets/images/3.jpg",
-    "/assets/images/4.jpg"
+    "/assets/images/4.jpg",
   ];
 
+  const [loadedImages, setLoadedImages] = useState([]);
   const [currentImage, setCurrentImage] = useState(0);
+  const [prevImage, setPrevImage] = useState(0);
+  const [fadeIn, setFadeIn] = useState(true);
 
+  // Preload images once, and only rotate through the ones that actually load.
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % images.length);
-    }, 4500);
-    return () => clearInterval(interval);
+    let isMounted = true;
+
+    const preload = async () => {
+      const results = await Promise.all(
+        images.map(
+          (src) =>
+            new Promise((resolve) => {
+              const img = new Image();
+              img.onload = () => resolve({ src, ok: true });
+              img.onerror = () => resolve({ src, ok: false });
+              img.src = src;
+            })
+        )
+      );
+
+      const ok = results.filter((r) => r.ok).map((r) => r.src);
+      if (isMounted) {
+        setLoadedImages(ok.length > 0 ? ok : [images[0]]);
+        setCurrentImage(0);
+        setPrevImage(0);
+      }
+
+      // Helpful debug (won’t break prod):
+      if (ok.length !== images.length) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          "Some AboutPreview images failed to load:",
+          results.filter((r) => !r.ok).map((r) => r.src)
+        );
+      }
+    };
+
+    preload();
+    return () => {
+      isMounted = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Rotate images with a crossfade.
+  useEffect(() => {
+    if (!loadedImages || loadedImages.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setFadeIn(false);
+
+      // After fade-out starts, swap to next image.
+      setTimeout(() => {
+        setPrevImage(currentImage);
+        setCurrentImage((prev) => (prev + 1) % loadedImages.length);
+        setFadeIn(true);
+      }, 350);
+    }, 4500);
+
+    return () => clearInterval(interval);
+  }, [loadedImages, currentImage]);
+
+  const currentSrc = (loadedImages && loadedImages[currentImage]) || images[0];
+  const prevSrc = (loadedImages && loadedImages[prevImage]) || images[0];
 
   return (
     <div className="bg-slate-50 dark:bg-slate-900/50 py-24 px-4 transition-colors duration-300">
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-start">
         <div className="space-y-8">
           <div>
-              <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-6">About Me</h2>
-              <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-6">About Me</h2>
+            <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
               {PORTFOLIO_DATA.about}
-              </p>
+            </p>
           </div>
-          
+
           {/* Education Snapshot (ADDED) */}
           <div>
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center">
-                  <GraduationCap className="w-5 h-5 mr-2 text-blue-600 dark:text-blue-400"/> Education
-              </h3>
-              <div className="space-y-4">
-                  {PORTFOLIO_DATA.education.map((edu, idx) => (
-                      <div key={idx} className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                          <div className="font-bold text-slate-900 dark:text-white">{edu.school}</div>
-                          <div className="text-blue-600 dark:text-blue-400 text-sm font-medium">{edu.degree}</div>
-                          <div className="text-slate-500 dark:text-slate-400 text-xs mt-1">{edu.year} • {edu.location}</div>
-                      </div>
-                  ))}
-              </div>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center">
+              <GraduationCap className="w-5 h-5 mr-2 text-blue-600 dark:text-blue-400" /> Education
+            </h3>
+            <div className="space-y-4">
+              {PORTFOLIO_DATA.education.map((edu, idx) => (
+                <div
+                  key={idx}
+                  className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm"
+                >
+                  <div className="font-bold text-slate-900 dark:text-white">{edu.school}</div>
+                  <div className="text-blue-600 dark:text-blue-400 text-sm font-medium">{edu.degree}</div>
+                  <div className="text-slate-500 dark:text-slate-400 text-xs mt-1">
+                    {edu.year} • {edu.location}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Skills Section */}
           <div>
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center">
-                  <Wrench className="w-5 h-5 mr-2 text-blue-600 dark:text-blue-400"/> Skills & Tools
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                  {Object.values(PORTFOLIO_DATA.skills).join(', ').split(', ').map(skill => (
-                      <span key={skill} className="bg-white dark:bg-slate-800 px-3 py-1 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shadow-sm">
-                          {skill}
-                      </span>
-                  ))}
-              </div>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center">
+              <Wrench className="w-5 h-5 mr-2 text-blue-600 dark:text-blue-400" /> Skills & Tools
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {Object.values(PORTFOLIO_DATA.skills)
+                .join(", ")
+                .split(", ")
+                .map((skill) => (
+                  <span
+                    key={skill}
+                    className="bg-white dark:bg-slate-800 px-3 py-1 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shadow-sm"
+                  >
+                    {skill}
+                  </span>
+                ))}
+            </div>
           </div>
         </div>
 
         <div className="space-y-6">
           <div className="relative h-80 rounded-2xl overflow-hidden shadow-xl group">
+            {/* Previous image (base) */}
             <img
-              src={images[currentImage]}
+              src={prevSrc}
               alt="Bharath Vittal visual"
-              className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
+              className="absolute inset-0 w-full h-full object-cover"
+              loading="eager"
             />
 
-            <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/70 to-purple-600/70 flex flex-col items-center justify-center text-white p-6 text-center">
-              <span className="text-2xl font-bold mb-2">Bharath Vittal</span>
-              <span className="text-sm opacity-90">{PORTFOLIO_DATA.tagline}</span>
+            {/* Current image (fades in/out) */}
+            <img
+              src={currentSrc}
+              alt="Bharath Vittal visual"
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
+                fadeIn ? "opacity-100" : "opacity-0"
+              }`}
+              loading="lazy"
+            />
+
+            {/* Lighter overlay to let images show through */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/35 via-blue-600/15 to-slate-900/20 flex flex-col items-center justify-center text-white p-6 text-center">
+              <span className="text-2xl font-bold mb-2 drop-shadow">Bharath Vittal</span>
+              <span className="text-sm opacity-95 drop-shadow">{PORTFOLIO_DATA.tagline}</span>
             </div>
           </div>
+
           <div className="p-6 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
             <p className="italic text-slate-600 dark:text-slate-300">
               "Bharath is an enthusiastic doer and a natural organizer. The end-result was a well-appreciated video that captured our company’s culture and values."
             </p>
-            <div className="mt-4 font-semibold text-slate-900 dark:text-white">— Ashwin Ramasamy, Founder & CEO @ PipeCandy</div>
+            <div className="mt-4 font-semibold text-slate-900 dark:text-white">
+              — Ashwin Ramasamy, Founder & CEO @ PipeCandy
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 const EducationView = ({ onOpenProject }) => (
   <div className="py-24 px-4 max-w-5xl mx-auto">
