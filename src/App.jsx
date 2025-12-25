@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Routes, Route, NavLink, useNavigate, useParams, useLocation } from "react-router-dom";
 import { 
   Menu, X, Linkedin, Mail, Github, ExternalLink, 
   ChevronRight, Mic, MicOff, Send, MessageSquare, 
@@ -153,7 +154,7 @@ const PORTFOLIO_DATA = {
     {
       company: "PipeCandy Technologies (acquired by Assembly, now PacVue)",
       location: "India",
-      role: "Product Manager / Product Marketer",
+      role: "Product Marketing Manager",
       date: "June 2021 – Sept 2023",
       bullets: [
         "Owned content-led product strategy aligned with GTM goals; executed campaigns that drove 5x increase in sign-ups",
@@ -164,7 +165,7 @@ const PORTFOLIO_DATA = {
       caseStudy: {
         overview: {
           duration: "June 2021 – Sept 2023",
-          role: "Product Manager / Product Marketer",
+          role: "Product Marketing Manager",
           location: "India",
           type: "B2B SaaS (content-led growth + GTM execution)"
         },
@@ -672,6 +673,21 @@ const PORTFOLIO_DATA = {
 
 // --- COMPONENTS ---
 
+const slugify = (str = "") =>
+  str
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+
+const useScrollToTopOnRouteChange = () => {
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, [location.pathname]);
+};
+
 const Navigation = ({ activeTab, setActiveTab }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -931,65 +947,89 @@ const Hero = ({ onOpenResume }) => (
   </div>
 );
 
-const AboutPreview = () => (
-  <div className="bg-slate-50 dark:bg-slate-900/50 py-24 px-4 transition-colors duration-300">
-    <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-start">
-      <div className="space-y-8">
-        <div>
-            <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-6">About Me</h2>
-            <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
-            {PORTFOLIO_DATA.about}
+const AboutPreview = () => {
+  const images = [
+    "/assets/images/1.jpg",
+    "/assets/images/2.jpg",
+    "/assets/images/3.jpg",
+    "/assets/images/4.jpg"
+  ];
+
+  const [currentImage, setCurrentImage] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % images.length);
+    }, 4500);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="bg-slate-50 dark:bg-slate-900/50 py-24 px-4 transition-colors duration-300">
+      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-start">
+        <div className="space-y-8">
+          <div>
+              <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-6">About Me</h2>
+              <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
+              {PORTFOLIO_DATA.about}
+              </p>
+          </div>
+          
+          {/* Education Snapshot (ADDED) */}
+          <div>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center">
+                  <GraduationCap className="w-5 h-5 mr-2 text-blue-600 dark:text-blue-400"/> Education
+              </h3>
+              <div className="space-y-4">
+                  {PORTFOLIO_DATA.education.map((edu, idx) => (
+                      <div key={idx} className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                          <div className="font-bold text-slate-900 dark:text-white">{edu.school}</div>
+                          <div className="text-blue-600 dark:text-blue-400 text-sm font-medium">{edu.degree}</div>
+                          <div className="text-slate-500 dark:text-slate-400 text-xs mt-1">{edu.year} • {edu.location}</div>
+                      </div>
+                  ))}
+              </div>
+          </div>
+
+          {/* Skills Section */}
+          <div>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center">
+                  <Wrench className="w-5 h-5 mr-2 text-blue-600 dark:text-blue-400"/> Skills & Tools
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                  {Object.values(PORTFOLIO_DATA.skills).join(', ').split(', ').map(skill => (
+                      <span key={skill} className="bg-white dark:bg-slate-800 px-3 py-1 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shadow-sm">
+                          {skill}
+                      </span>
+                  ))}
+              </div>
+          </div>
+        </div>
+
+        <div className="space-y-6">
+          <div className="relative h-80 rounded-2xl overflow-hidden shadow-xl group">
+            <img
+              src={images[currentImage]}
+              alt="Bharath Vittal visual"
+              className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
+            />
+
+            <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/70 to-purple-600/70 flex flex-col items-center justify-center text-white p-6 text-center">
+              <span className="text-2xl font-bold mb-2">Bharath Vittal</span>
+              <span className="text-sm opacity-90">{PORTFOLIO_DATA.tagline}</span>
+            </div>
+          </div>
+          <div className="p-6 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
+            <p className="italic text-slate-600 dark:text-slate-300">
+              "Bharath is an enthusiastic doer and a natural organizer. The end-result was a well-appreciated video that captured our company’s culture and values."
             </p>
-        </div>
-        
-        {/* Education Snapshot (ADDED) */}
-        <div>
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center">
-                <GraduationCap className="w-5 h-5 mr-2 text-blue-600 dark:text-blue-400"/> Education
-            </h3>
-            <div className="space-y-4">
-                {PORTFOLIO_DATA.education.map((edu, idx) => (
-                    <div key={idx} className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
-                        <div className="font-bold text-slate-900 dark:text-white">{edu.school}</div>
-                        <div className="text-blue-600 dark:text-blue-400 text-sm font-medium">{edu.degree}</div>
-                        <div className="text-slate-500 dark:text-slate-400 text-xs mt-1">{edu.year} • {edu.location}</div>
-                    </div>
-                ))}
-            </div>
-        </div>
-
-        {/* Skills Section */}
-        <div>
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4 flex items-center">
-                <Wrench className="w-5 h-5 mr-2 text-blue-600 dark:text-blue-400"/> Skills & Tools
-            </h3>
-            <div className="flex flex-wrap gap-2">
-                {Object.values(PORTFOLIO_DATA.skills).join(', ').split(', ').map(skill => (
-                    <span key={skill} className="bg-white dark:bg-slate-800 px-3 py-1 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shadow-sm">
-                        {skill}
-                    </span>
-                ))}
-            </div>
-        </div>
-      </div>
-
-      <div className="space-y-6">
-        <div className="relative h-80 bg-slate-200 dark:bg-slate-800 rounded-2xl overflow-hidden shadow-xl group">
-            <div className="absolute inset-0 bg-gradient-to-tr from-blue-600 to-purple-600 opacity-90 flex flex-col items-center justify-center text-white p-6 text-center">
-               <span className="text-2xl font-bold mb-2">Bharath Vittal</span>
-               <span className="text-sm opacity-80">{PORTFOLIO_DATA.tagline}</span>
-            </div>
-        </div>
-        <div className="p-6 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
-          <p className="italic text-slate-600 dark:text-slate-300">
-            "Bharath is an enthusiastic doer and a natural organizer. The end-result was a well-appreciated video that captured our company’s culture and values."
-          </p>
-          <div className="mt-4 font-semibold text-slate-900 dark:text-white">— Ashwin Ramasamy, Founder & CEO @ PipeCandy</div>
+            <div className="mt-4 font-semibold text-slate-900 dark:text-white">— Ashwin Ramasamy, Founder & CEO @ PipeCandy</div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+}
 
 const EducationView = ({ onOpenProject }) => (
   <div className="py-24 px-4 max-w-5xl mx-auto">
