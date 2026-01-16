@@ -687,41 +687,126 @@ const useScrollToTopOnRouteChange = () => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   }, [location.pathname]);
 };
+const findWorkBySlug = (slug) =>
+  PORTFOLIO_DATA.work.find((job) => slugify(job.company) === slug);
 
-const Navigation = ({ activeTab, setActiveTab }) => {
+const findProjectBySlug = (slug) =>
+  PORTFOLIO_DATA.projects.find((p) => slugify(p.title) === slug);
+
+const HomePage = ({ onOpenResume }) => (
+  <div className="animate-in fade-in duration-500">
+    <Hero onOpenResume={onOpenResume} />
+    <AboutPreview />
+    <ContactSection onOpenResume={onOpenResume} />
+  </div>
+);
+
+const WorkIndexPage = () => {
+  const navigate = useNavigate();
+  return (
+    <div className="animate-in fade-in duration-500">
+      <WorkTimeline onOpenWork={(job) => navigate(`/work/${slugify(job.company)}`)} />
+    </div>
+  );
+};
+
+const WorkDetailPage = () => {
+  const navigate = useNavigate();
+  const { slug } = useParams();
+  const job = findWorkBySlug(slug);
+
+  if (!job) {
+    return (
+      <div className="py-24 px-4 max-w-4xl mx-auto">
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Work page not found</h2>
+        <button
+          onClick={() => navigate('/work')}
+          className="inline-flex items-center text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" /> Back to Work
+        </button>
+      </div>
+    );
+  }
+
+  return <WorkCaseStudyModal job={job} onClose={() => navigate('/work')} />;
+};
+
+const EducationPage = () => {
+  const navigate = useNavigate();
+  return (
+    <div className="animate-in fade-in duration-500">
+      <EducationView onOpenProject={(project) => navigate(`/projects/${slugify(project.title)}`)} />
+    </div>
+  );
+};
+
+const ProjectsIndexPage = () => {
+  const navigate = useNavigate();
+  return (
+    <div className="animate-in fade-in duration-500">
+      <ProjectsGrid onOpenCaseStudy={(project) => navigate(`/projects/${slugify(project.title)}`)} />
+    </div>
+  );
+};
+
+const ProjectDetailPage = () => {
+  const navigate = useNavigate();
+  const { slug } = useParams();
+  const project = findProjectBySlug(slug);
+
+  if (!project) {
+    return (
+      <div className="py-24 px-4 max-w-4xl mx-auto">
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Project page not found</h2>
+        <button
+          onClick={() => navigate('/projects')}
+          className="inline-flex items-center text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" /> Back to Projects
+        </button>
+      </div>
+    );
+  }
+
+  return <CaseStudyModal project={project} onClose={() => navigate('/projects')} />;
+};
+const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
-    { id: 'home', label: 'Home', icon: User },
-    { id: 'work', label: 'Work', icon: Briefcase },
-    { id: 'education', label: 'Education', icon: GraduationCap },
-    { id: 'projects', label: 'Projects', icon: Code },
-  ];
+  { to: '/', label: 'Home', icon: User },
+  { to: '/work', label: 'Work', icon: Briefcase },
+  { to: '/education', label: 'Education', icon: GraduationCap },
+  { to: '/projects', label: 'Projects', icon: Code },
+];
 
   return (
     <nav className="fixed top-0 left-0 right-0 bg-white/90 dark:bg-slate-950/90 backdrop-blur-md z-50 border-b border-gray-100 dark:border-slate-800 shadow-sm transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
-          <div className="flex-shrink-0 flex items-center cursor-pointer" onClick={() => setActiveTab('home')}>
+          <NavLink to="/" className="flex-shrink-0 flex items-center cursor-pointer">
             <span className="font-bold text-xl tracking-tight text-slate-900 dark:text-white">BV.</span>
-          </div>
+          </NavLink>
           
           {/* Desktop Nav */}
           <div className="hidden md:flex space-x-6 items-center">
             {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => setActiveTab(item.id)}
-                className={`flex items-center px-3 py-2 text-sm font-medium transition-colors duration-200 ${
-                  activeTab === item.id 
-                    ? 'text-blue-600 dark:text-blue-400' 
-                    : 'text-gray-500 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white'
-                }`}
-              >
-                <item.icon className="w-4 h-4 mr-2" />
-                {item.label}
-              </button>
-            ))}
+  <NavLink
+    key={item.to}
+    to={item.to}
+    className={({ isActive }) =>
+      `flex items-center px-3 py-2 text-sm font-medium transition-colors duration-200 ${
+        isActive
+          ? 'text-blue-600 dark:text-blue-400'
+          : 'text-gray-500 dark:text-slate-400 hover:text-gray-900 dark:hover:text-white'
+      }`
+    }
+  >
+    <item.icon className="w-4 h-4 mr-2" />
+    {item.label}
+  </NavLink>
+))}
           </div>
 
           {/* Mobile Menu Button */}
@@ -741,23 +826,23 @@ const Navigation = ({ activeTab, setActiveTab }) => {
         <div className="md:hidden bg-white dark:bg-slate-950 border-b border-gray-100 dark:border-slate-800 animate-in slide-in-from-top-5">
           <div className="px-2 pt-2 pb-3 space-y-1">
             {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => {
-                  setActiveTab(item.id);
-                  setIsOpen(false);
-                }}
-                className={`block w-full text-left px-3 py-4 rounded-md text-base font-medium ${
-                  activeTab === item.id 
-                    ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' 
-                    : 'text-gray-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-900'
-                }`}
-              >
-                <div className="flex items-center">
-                  <item.icon className="w-5 h-5 mr-3" />
-                  {item.label}
-                </div>
-              </button>
+              <NavLink
+  key={item.to}
+  to={item.to}
+  onClick={() => setIsOpen(false)}
+  className={({ isActive }) =>
+    `block w-full text-left px-3 py-4 rounded-md text-base font-medium ${
+      isActive
+        ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400'
+        : 'text-gray-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-900'
+    }`
+  }
+>
+  <div className="flex items-center">
+    <item.icon className="w-5 h-5 mr-3" />
+    {item.label}
+  </div>
+</NavLink>
             ))}
           </div>
         </div>
@@ -1788,68 +1873,44 @@ const ContactSection = ({ onOpenResume }) => (
 
 
 const App = () => {
-  const [activeTab, setActiveTab] = useState('home');
-  const [selectedProject, setSelectedProject] = useState(null);
+  useScrollToTopOnRouteChange();
   const [showResume, setShowResume] = useState(false);
-  const [selectedWork, setSelectedWork] = useState(null);
 
   return (
     <div className="min-h-screen w-full transition-colors duration-300">
       <div className="min-h-screen w-full bg-white dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-100 selection:bg-blue-100 selection:text-blue-900 transition-colors duration-300">
-        {/* Modal for Work Case Study */}
-        {selectedWork && (
-          <WorkCaseStudyModal
-            job={selectedWork}
-            onClose={() => setSelectedWork(null)}
-          />
-        )}
-        {/* Modal for Case Studies */}
-        {selectedProject && (
-          <CaseStudyModal
-            project={selectedProject}
-            onClose={() => setSelectedProject(null)}
-          />
-        )}
-        {/* Modal for Resume */}
-        {showResume && (
-          <ResumeModal onClose={() => setShowResume(false)} />
-        )}
-        {/* Main Navigation (Hidden when modal is open) */}
-        {!selectedProject && !showResume && !selectedWork && (
-          <Navigation
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-          />
-        )}
-        <main className={`min-h-screen w-full pt-16 ${selectedProject || showResume || selectedWork ? 'hidden' : 'block'}`}>
-          {activeTab === 'home' && (
-            <div className="animate-in fade-in duration-500">
-              <Hero onOpenResume={() => setShowResume(true)} />
-              <AboutPreview />
-              <ContactSection onOpenResume={() => setShowResume(true)} />
-            </div>
-          )}
-          {activeTab === 'work' && (
-            <div className="animate-in fade-in duration-500">
-              <WorkTimeline onOpenWork={setSelectedWork} />
-            </div>
-          )}
-          {activeTab === 'education' && (
-            <div className="animate-in fade-in duration-500">
-              <EducationView onOpenProject={(project) => {
-                setSelectedProject(project);
-              }} />
-            </div>
-          )}
-          {activeTab === 'projects' && (
-            <div className="animate-in fade-in duration-500">
-              <ProjectsGrid onOpenCaseStudy={setSelectedProject} />
-            </div>
-          )}
+        {showResume && <ResumeModal onClose={() => setShowResume(false)} />}
+
+        {!showResume && <Navigation />}
+
+        <main className={`min-h-screen w-full pt-16 ${showResume ? 'hidden' : 'block'}`}>
+          <Routes>
+            <Route path="/" element={<HomePage onOpenResume={() => setShowResume(true)} />} />
+
+            <Route path="/work" element={<WorkIndexPage />} />
+            <Route path="/work/:slug" element={<WorkDetailPage />} />
+
+            <Route path="/education" element={<EducationPage />} />
+
+            <Route path="/projects" element={<ProjectsIndexPage />} />
+            <Route path="/projects/:slug" element={<ProjectDetailPage />} />
+
+            <Route
+              path="*"
+              element={
+                <div className="py-24 px-4 max-w-4xl mx-auto">
+                  <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Page not found</h2>
+                  <NavLink to="/" className="text-blue-600 dark:text-blue-400 font-semibold hover:underline">
+                    Go back home
+                  </NavLink>
+                </div>
+              }
+            />
+          </Routes>
         </main>
       </div>
     </div>
   );
-}
+};
 
 export default App;
