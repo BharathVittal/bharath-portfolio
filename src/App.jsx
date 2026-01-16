@@ -666,7 +666,7 @@ const PORTFOLIO_DATA = {
     email: "hello@bharathvittal.com", // UPDATED EMAIL
     linkedin: "https://www.linkedin.com/in/bharath-v-737456b5/",
     phone: "+1 (857) 930-8934",
-    resumeUrl: "/assets/BHARATH_VITTAL_RESUME_PM.docx"
+    resumeUrl: "/assets/resume/bharathvittal_resume.docx"
   }
 };
 
