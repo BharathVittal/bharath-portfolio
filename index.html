@@ -5,6 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bharath Vittal</title>
 
+    <!-- Google Tag Manager -->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-MDXJ9J79");
+    </script>
+    <!-- End Google Tag Manager -->
+
     <!-- Tailwind CDN + config (ONLY ONCE) -->
     <script>
       tailwind = { config: { darkMode: "class" } };
@@ -13,42 +28,61 @@
   </head>
 
   <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-MDXJ9J79"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+
     <!-- ElevenLabs Voice Assistant -->
     <elevenlabs-convai agent-id="agent_8201kd4594xdfc9tmzh4qptfv2df"></elevenlabs-convai>
     <script
       src="https://unpkg.com/@elevenlabs/convai-widget-embed"
       async
-      type="text/javascript">
-    </script>
+      type="text/javascript"
+    ></script>
+
     <!-- Cal floating-popup embed -->
     <script type="text/javascript">
       (function (C, A, L) {
-        let p = function (a, ar) { a.q.push(ar); };
-        let d = C.document;
-        C.Cal = C.Cal || function () {
-          let cal = C.Cal;
-          let ar = arguments;
-          if (!cal.loaded) {
-            cal.ns = {};
-            cal.q = cal.q || [];
-            d.head.appendChild(d.createElement("script")).src = A;
-            cal.loaded = true;
-          }
-          if (ar[0] === L) {
-            const api = function () { p(api, arguments); };
-            const namespace = ar[1];
-            api.q = api.q || [];
-            if (typeof namespace === "string") {
-              cal.ns[namespace] = cal.ns[namespace] || api;
-              p(cal.ns[namespace], ar);
-              p(cal, ["initNamespace", namespace]);
-            } else p(cal, ar);
-            return;
-          }
-          p(cal, ar);
+        let p = function (a, ar) {
+          a.q.push(ar);
         };
+        let d = C.document;
+        C.Cal =
+          C.Cal ||
+          function () {
+            let cal = C.Cal;
+            let ar = arguments;
+            if (!cal.loaded) {
+              cal.ns = {};
+              cal.q = cal.q || [];
+              d.head.appendChild(d.createElement("script")).src = A;
+              cal.loaded = true;
+            }
+            if (ar[0] === L) {
+              const api = function () {
+                p(api, arguments);
+              };
+              const namespace = ar[1];
+              api.q = api.q || [];
+              if (typeof namespace === "string") {
+                cal.ns[namespace] = cal.ns[namespace] || api;
+                p(cal.ns[namespace], ar);
+                p(cal, ["initNamespace", namespace]);
+              } else p(cal, ar);
+              return;
+            }
+            p(cal, ar);
+          };
       })(window, "https://app.cal.com/embed/embed.js", "init");
 
       Cal("init", "15min", { origin: "https://app.cal.com" });
@@ -56,15 +90,15 @@
       Cal.ns["15min"]("floatingButton", {
         calLink: "bharathvittal/virtualcoffee",
         config: {
-          layout: "month_view"
+          layout: "month_view",
         },
         buttonPosition: "bottom-left",
-        buttonText: "Have 30 minutes?"
+        buttonText: "Have 30 minutes?",
       });
 
       Cal.ns["15min"]("ui", {
         hideEventTypeDetails: false,
-        layout: "month_view"
+        layout: "month_view",
       });
     </script>
   </body>
