@@ -662,6 +662,64 @@ const PORTFOLIO_DATA = {
       }
     }
   ],
+  films: [
+  {
+    title: "Seven Minutes in Heaven",
+    logline: "A game of seven minutes in heaven gets awkward when the wrong person volunteers.",
+    watchUrl: "https://youtu.be/9tV9JYZMvZE?si=Ni8eNejR_7fDrYdi",
+    embedUrl: "https://www.youtube.com/embed/9tV9JYZMvZE?si=5EIVdiQ_sfHeVvID",
+    type: "Short film",
+    notes: "NUTV"
+  },
+  {
+    title: "Mr. Bones",
+    logline: "Jess is already having a bad day when she runs into MR. BONES! A skeleton that just wants his skin back so he can be hot again.",
+    watchUrl: "https://youtu.be/KvDk-x_IrhA?si=mOWa3HJPhe7-eIw8",
+    embedUrl: "https://www.youtube.com/embed/KvDk-x_IrhA?si=kx_7d8km-ClfQ_KU",
+    type: "Short film",
+    notes: "NUTV"
+  },
+  {
+    title: "A Date, Some Crypto, Many Masks",
+    logline: "A date, some crypto, many masks.",
+    watchUrl: "https://youtu.be/W8b9Nxg0v9U?si=9xBGIyYlvqxvMauu",
+    embedUrl: "https://www.youtube.com/embed/W8b9Nxg0v9U?si=_3K4etG6smSNgkUD",
+    type: "Short film",
+    notes: "NUTV"
+  },
+  {
+    title: "First Week Videos — Boston Lore (Group 2: The Boston Strangler)",
+    logline: "First Week Videos are a one-week filmmaking sprint. Theme: Boston Lore. Group 2 prompt: The Boston Strangler.",
+    watchUrl: "https://youtu.be/otAYGORfBkI?si=jxw6UUEpkWBSwzh",
+    embedUrl: "https://www.youtube.com/embed/otAYGORfBkI?si=SoCRpB9TKsPkWPbp",
+    type: "First Week Video",
+    notes: "NUTV"
+  },
+  {
+    title: "Your Favorite Club Just Got Cinematic",
+    logline: "Your favorite club just got *CINEMATIC* (freshly premiered at this year’s Yearly Show)!",
+    watchUrl: "https://youtu.be/5qEM9cYia2U?si=rd0l5XyE7mVS8RBK",
+    embedUrl: "https://www.youtube.com/embed/5qEM9cYia2U?si=4rTxtLJgLM8Oh5Jr",
+    type: "Club promo",
+    notes: "NUTV"
+  },
+  {
+    title: "A Day",
+    logline: "The journey of a thousand miles begins with a single step.",
+    watchUrl: "https://youtu.be/VAVqYTyyXvA?si=K6veUchkQLp-lScr",
+    embedUrl: "https://www.youtube.com/embed/VAVqYTyyXvA?si=6sYWHTZhs5q8JMcl",
+    type: "Short film",
+    notes: "NUTV"
+  },
+  {
+    title: "Heist — Trust Gone Wrong",
+    logline: "A team of con artists learns the value of trust during a heist where everything goes wrong.",
+    watchUrl: "https://vimeo.com/1130756333/1301549832?fl=pl&fe=sh",
+    embedUrl: "https://player.vimeo.com/video/1130756333?h=1301549832",
+    type: "Short film",
+    notes: "Vimeo"
+  }
+],
   contact: {
     email: "hello@bharathvittal.com", // UPDATED EMAIL
     linkedin: "https://www.linkedin.com/in/bharath-v-737456b5/",
@@ -771,6 +829,86 @@ const ProjectDetailPage = () => {
 
   return <CaseStudyModal project={project} onClose={() => navigate('/projects')} />;
 };
+const FilmsPage = () => (
+  <div className="py-24 px-4 max-w-6xl mx-auto">
+    <div className="mb-12 text-center">
+      <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white mb-4">
+        Films
+      </h2>
+      <p className="text-lg text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
+        I chase stories beyond product — filmmaking is where I practice observation, pacing, and emotion.
+        Here are a few projects I’ve been part of through Northeastern Television (NUTV).
+      </p>
+    </div>
+
+    <div className="grid md:grid-cols-2 gap-8">
+      {PORTFOLIO_DATA.films.map((film, idx) => (
+        <div
+          key={idx}
+          className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm"
+        >
+          <div className="aspect-[16/9] w-full bg-slate-100 dark:bg-slate-800">
+            <iframe
+              title={film.title}
+              src={film.embedUrl}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+              loading="lazy"
+              className="w-full h-full"
+            />
+          </div>
+
+          <div className="p-6">
+            <div className="flex flex-wrap gap-2 mb-3">
+              <span className="text-[10px] uppercase tracking-wider font-semibold bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-3 py-1 rounded-full">
+                {film.type}
+              </span>
+              <span className="text-[10px] uppercase tracking-wider font-semibold bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700">
+                {film.notes}
+              </span>
+            </div>
+
+            <h3 className="text-xl font-extrabold text-slate-900 dark:text-white mb-2">
+              {film.title}
+            </h3>
+            <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+              {film.logline}
+            </p>
+
+            <a
+              href={film.youtubeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+            >
+              Watch on YouTube <ExternalLink className="w-4 h-4 ml-2" />
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div className="mt-16 bg-slate-900 dark:bg-slate-800 text-white p-8 rounded-2xl relative overflow-hidden shadow-lg">
+      <div className="absolute top-0 right-0 -mt-6 -mr-6 opacity-20">
+        <Sparkles className="w-32 h-32" />
+      </div>
+      <h3 className="text-2xl font-bold mb-2 relative z-10">Want to talk story?</h3>
+      <p className="text-slate-200 max-w-3xl relative z-10">
+        If you’re curious about what I did on any of these (or you’re building something creative),
+        hit me up — always down to talk films.
+      </p>
+      <div className="mt-5 relative z-10">
+        <a
+          href={`mailto:${PORTFOLIO_DATA.contact.email}`}
+          className="inline-flex items-center bg-white/10 hover:bg-white/15 border border-white/10 px-4 py-2 rounded-full text-sm font-semibold"
+        >
+          Email me <Mail className="w-4 h-4 ml-2" />
+        </a>
+      </div>
+    </div>
+  </div>
+);
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -779,6 +917,7 @@ const Navigation = () => {
   { to: '/work', label: 'Work', icon: Briefcase },
   { to: '/education', label: 'Education', icon: GraduationCap },
   { to: '/projects', label: 'Projects', icon: Code },
+  { to: '/films', label: 'Films', icon: Film },
 ];
 
   return (
@@ -1894,6 +2033,7 @@ const App = () => {
 
             <Route path="/projects" element={<ProjectsIndexPage />} />
             <Route path="/projects/:slug" element={<ProjectDetailPage />} />
+            <Route path="/films" element={<FilmsPage />} />
 
             <Route
               path="*"
