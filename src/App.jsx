@@ -7,7 +7,7 @@ import {
   Cpu, TrendingUp, HelpCircle, GraduationCap, Wrench,
   MapPin, Calendar, ArrowLeft, Target, Lightbulb, 
   Users, BarChart3, PieChart, Layers, File, Sun, Moon,
-  Award, BookOpen, Link as LinkIcon, Printer, Eye
+  Award, BookOpen, Link as LinkIcon, Printer, Eye, Film
 } from 'lucide-react';
 
 // --- DATA ---
