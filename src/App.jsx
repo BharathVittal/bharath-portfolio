@@ -876,14 +876,7 @@ const FilmsPage = () => (
               {film.logline}
             </p>
 
-            <a
-              href={film.youtubeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center text-sm font-semibold text-blue-600 dark:text-blue-400 hover:underline"
-            >
-              Watch on YouTube <ExternalLink className="w-4 h-4 ml-2" />
-            </a>
+          
           </div>
         </div>
       ))}
