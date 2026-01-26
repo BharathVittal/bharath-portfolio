@@ -1347,11 +1347,25 @@ const AboutPreview = () => {
           </div>
 
           <div className="p-6 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
-            <p className="italic text-slate-600 dark:text-slate-300">
-              "Bharath is an enthusiastic doer and a natural organizer. The end-result was a well-appreciated video that captured our company’s culture and values."
+            <div className="flex items-center gap-2 mb-3">
+              <Award className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+              <div className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                Founder endorsement
+              </div>
+            </div>
+
+            <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
+              At PipeCandy (now PacVue), I led our culture / hiring video end-to-end — researched storytelling patterns from iconic brands,
+              aligned stakeholders, and coordinated vendors to ship on time.
             </p>
+
+            <p className="mt-4 italic text-slate-600 dark:text-slate-400">
+              “Bharath is an enthusiastic doer and a natural organizer. The end-result was a well-appreciated video that captured our company’s culture and values
+              through stories from the people who built the company.”
+            </p>
+
             <div className="mt-4 font-semibold text-slate-900 dark:text-white">
-              — Ashwin Ramasamy, Founder & CEO @ PipeCandy
+              — Ashwin Ramasamy, Founder & CEO @ PipeCandy (now PacVue)
             </div>
           </div>
         </div>
